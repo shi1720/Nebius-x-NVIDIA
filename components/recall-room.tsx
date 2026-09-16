@@ -84,7 +84,7 @@ import { sampleInvestigation } from "@/lib/sample";
 import {
   addAudit,
   resolveLink,
-  trace,
+  traceInvestigation,
   hasEvidence,
   validateDataset,
   datasetSchema,
@@ -98,6 +98,7 @@ import {
   customerDraft,
 } from "@/lib/export";
 import { readSourceFile } from "@/lib/read-file";
+import { apiFetch } from "@/lib/firebase-client";
 import LotGraph, { statusLabel } from "./lot-graph";
 
 type View = "room" | "evidence" | "export" | "activity";
@@ -114,8 +115,29 @@ const nav = [
   { id: "export" as const, label: "Review & export", icon: ShieldCheck },
   { id: "activity" as const, label: "Activity log", icon: Activity },
 ];
+const runningJobs = new Map<string, string>();
+function rememberJob(caseId: string, jobId: string | null) {
+  if (jobId) runningJobs.set(caseId, jobId);
+  else runningJobs.delete(caseId);
+  try {
+    const key = `recallroom-job-${caseId}`;
+    if (jobId) sessionStorage.setItem(key, jobId);
+    else sessionStorage.removeItem(key);
+  } catch {
+    // Private browsing can disable storage; the server remains the recovery source.
+  }
+}
+function recalledJob(caseId: string) {
+  const current = runningJobs.get(caseId);
+  if (current) return current;
+  try {
+    return sessionStorage.getItem(`recallroom-job-${caseId}`);
+  } catch {
+    return null;
+  }
+}
 const request = async (path: string, method = "GET", body?: unknown) => {
-  const res = await fetch(path, {
+  const res = await apiFetch(path, {
     method,
     headers:
       body instanceof FormData
@@ -126,17 +148,38 @@ const request = async (path: string, method = "GET", body?: unknown) => {
   });
   const data = (await res.json()) as {
     error?: string;
+    jobId?: string;
+    activeJobId?: string | null;
+    status?: string;
     investigation: Investigation;
     investigations: Saved[];
   };
   if (!res.ok) throw new Error(data.error || "Request failed.");
+  if (data.investigation && "activeJobId" in data)
+    rememberJob(data.investigation.id, data.activeJobId || null);
   return data;
 };
-const downloadUrl = (url: string) => {
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = "";
-  anchor.click();
+const downloadUrl = async (
+  url: string,
+  name = url.split("/").pop() || "download",
+) => {
+  try {
+    const response = await (url.startsWith("/api/")
+      ? apiFetch(url)
+      : fetch(url));
+    if (!response.ok)
+      throw new Error(
+        "The original could not be downloaded. Please sign in and retry.",
+      );
+    const blobUrl = URL.createObjectURL(await response.blob());
+    const anchor = document.createElement("a");
+    anchor.href = blobUrl;
+    anchor.download = name;
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+  } catch (error) {
+    toast.error(error instanceof Error ? error.message : "Download failed.");
+  }
 };
 const formatNum = (n: number) => n.toLocaleString();
 export default function RecallRoom({
@@ -188,10 +231,7 @@ export default function RecallRoom({
       return null;
     }
   }, [draftText]);
-  const scope = useMemo(
-    () => trace(inv.dataset, inv.recalledLotIds, inv.documents),
-    [inv],
-  );
+  const scope = useMemo(() => traceInvestigation(inv), [inv]);
   const run = async (label: string, fn: () => Promise<void>) => {
     if (busy) return;
     setBusy(label);
@@ -211,7 +251,7 @@ export default function RecallRoom({
     return data.investigations as Saved[];
   }, []);
   useEffect(() => {
-    fetch("/api/config")
+    apiFetch("/api/config")
       .then(
         (r) => r.json() as Promise<{ liveAvailable: boolean; model: string }>,
       )
@@ -233,6 +273,52 @@ export default function RecallRoom({
         });
     }
   }, [persistent, setInv]);
+  useEffect(() => {
+    if (!persistent || !loaded) return;
+    const jobId = recalledJob(inv.id);
+    if (!jobId) return;
+    let active = true;
+    const resume = async () => {
+      setBusy("Checking your background extraction");
+      try {
+        const started = Date.now();
+        while (active && Date.now() - started < 300000) {
+          const result = await request(
+            `/api/investigations/${inv.id}/analyze?job=${encodeURIComponent(jobId)}`,
+          );
+          if (!active) return;
+          if (result.status === "completed") {
+            rememberJob(inv.id, null);
+            setInv(result.investigation);
+            toast.success("Your extraction is ready to review.");
+            return;
+          }
+          if (result.status === "failed" || result.status === "abandoned") {
+            rememberJob(inv.id, null);
+            throw new Error(result.error || "Extraction failed. Please retry.");
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+        if (active)
+          throw new Error(
+            "The background extraction is taking longer than expected. Reload to check its saved status before starting another request.",
+          );
+      } catch (error) {
+        if (active)
+          setError(
+            error instanceof Error
+              ? error.message
+              : "Could not resume extraction.",
+          );
+      } finally {
+        if (active) setBusy("");
+      }
+    };
+    void resume();
+    return () => {
+      active = false;
+    };
+  }, [persistent, loaded, inv.id, setInv]);
   useEffect(() => {
     const d = document as Document & {
       modelContext?: {
@@ -344,7 +430,7 @@ export default function RecallRoom({
           inv,
           actor,
           "Investigation packet exported",
-          `Revision ${inv.revision}; preliminary status and open questions preserved.`,
+          `Revision ${inv.revision}; ${traceInvestigation(inv).canFinalize ? "recorded scope reviewed" : "preliminary, open questions preserved"}.`,
         );
       setInv(next);
       return next;
@@ -471,6 +557,7 @@ export default function RecallRoom({
           {nav.map((n) => (
             <SidebarMenuItem key={n.id}>
               <SidebarMenuButton
+                aria-label={n.label}
                 className={`nav-item ${view === n.id ? "active" : ""}`}
                 onClick={() => navigate(n.id)}
                 aria-current={view === n.id ? "page" : undefined}
@@ -538,19 +625,11 @@ export default function RecallRoom({
                 : "PRIVATE INVESTIGATION"}
             </span>
             {user ? (
-              <a
-                className="text-button"
-                href="/signout-with-chatgpt?return_to=%2F"
-                target="_top"
-              >
+              <a className="text-button" href="/signout" target="_top">
                 Sign out <ArrowUpRight size={15} />
               </a>
             ) : (
-              <a
-                className="text-button"
-                href="/signin-with-chatgpt?return_to=%2Fworkspace"
-                target="_top"
-              >
+              <a className="text-button" href="/signin" target="_top">
                 Sign in <ArrowUpRight size={15} />
               </a>
             )}
@@ -654,6 +733,26 @@ export default function RecallRoom({
             </section>
           ) : (
             <>
+              {inv.needsSourceReview && (
+                <section className="validation-box" role="status">
+                  <h3>New evidence needs review</h3>
+                  <p>
+                    The graph and quantities still reflect the last approved
+                    records. Extract all current sources, check the proposal,
+                    and import the reviewed records to update this
+                    investigation. Exports remain preliminary until then.
+                  </p>
+                  <button
+                    className="inline-link"
+                    onClick={() => navigate("evidence")}
+                  >
+                    {inv.draft
+                      ? "Review extraction proposal"
+                      : "Open evidence and run extraction"}
+                    <ArrowRight size={16} />
+                  </button>
+                </section>
+              )}
               {view === "room" && (
                 <>
                   <section className="incident-strip">
@@ -936,9 +1035,40 @@ export default function RecallRoom({
                                 "POST",
                                 { revision: inv.revision },
                               );
-                              setInv(data.investigation);
-                              toast.success(
-                                "Extraction saved as a draft. Review it before importing.",
+                              if (!data.jobId)
+                                throw new Error(
+                                  "The extraction did not start. Please retry.",
+                                );
+                              rememberJob(inv.id, data.jobId);
+                              const started = Date.now();
+                              while (Date.now() - started < 300000) {
+                                await new Promise((resolve) =>
+                                  setTimeout(resolve, 2000),
+                                );
+                                const result = await request(
+                                  `/api/investigations/${inv.id}/analyze?job=${encodeURIComponent(data.jobId)}`,
+                                );
+                                if (result.status === "completed") {
+                                  rememberJob(inv.id, null);
+                                  setInv(result.investigation);
+                                  toast.success(
+                                    "Extraction saved as a draft. Review it before importing.",
+                                  );
+                                  return;
+                                }
+                                if (
+                                  result.status === "failed" ||
+                                  result.status === "abandoned"
+                                ) {
+                                  rememberJob(inv.id, null);
+                                  throw new Error(
+                                    result.error ||
+                                      "Extraction failed. Your approved records are unchanged.",
+                                  );
+                                }
+                              }
+                              throw new Error(
+                                "Extraction is taking longer than expected. Reload to check the saved result.",
                               );
                             },
                           )
@@ -1272,7 +1402,7 @@ export default function RecallRoom({
                         <div>
                           <strong>Source-linked records</strong>
                           <p>
-                            {inv.documents.length} source files support{" "}
+                            {inv.documents.length} source files in the library;{" "}
                             {inv.dataset.lots.length +
                               inv.dataset.links.length +
                               inv.dataset.shipments.length}{" "}
@@ -1678,6 +1808,7 @@ export default function RecallRoom({
                           if (persisted)
                             downloadUrl(
                               `/api/investigations/${inv.id}/documents?document=${encodeURIComponent(activeDoc.id)}`,
+                              activeDoc.name,
                             );
                           else downloadText(activeDoc.name, activeDoc.text);
                         }}
@@ -1853,8 +1984,10 @@ export default function RecallRoom({
                     placeholder="Explain why this evidence resolves the relationship."
                   />
                   <p className="small-note">
-                    Excluding an affected link removes that path from the
-                    calculation; it does not release stock or certify safety.
+                    {reviewDecision === "excluded"
+                      ? "Excluding a relationship removes that path from the calculation."
+                      : "Confirming a relationship records this material use in the trace."}{" "}
+                    Neither decision releases stock or certifies safety.
                   </p>
                   <Button
                     className="primary"
@@ -1976,12 +2109,8 @@ export default function RecallRoom({
                   </p>
                 </div>
               </div>
-              <a
-                className="primary signin-button"
-                href="/signin-with-chatgpt?return_to=%2Fworkspace"
-                target="_top"
-              >
-                Sign in with ChatGPT <ArrowUpRight size={17} />
+              <a className="primary signin-button" href="/signin" target="_top">
+                Sign in to RecallRoom <ArrowUpRight size={17} />
               </a>
               <Button
                 variant="outline"

@@ -1,19 +1,21 @@
 # Platform feedback
 
-## Observed during documentation and implementation
+## Documentation and implementation observations
 
-- The OpenAI-compatible Token Factory contract made it straightforward to isolate a provider adapter behind a typed schema and test request/response behavior.
-- Public model documentation has evolved: current examples recommend a global endpoint, while older pages show regional endpoints. A single canonical current snippet and migration warning would reduce setup mistakes.
-- Model IDs are case-sensitive and include punctuation differences. Startup catalog validation and clear deprecation notices are useful; an always-current copy button for each model ID would help further.
-- JSON schema documentation and examples should consistently show the `json_schema: {name, strict, schema}` wrapper. A schema compatibility matrix per model would make capability selection easier.
-- Token usage, request IDs, structured output and configurable models fit an auditable pipeline. RecallRoom records those fields when supplied rather than inferring performance.
+Nebius Token Factory's OpenAI-compatible interface made it practical to isolate the NVIDIA adapter behind a typed request and response boundary. RecallRoom requests evidence-linked structured output, validates it independently and keeps provider failures separate from approved investigation records.
 
-## Awaiting direct runtime observation
+Useful documentation details for this workflow include an exact current model identifier, a canonical endpoint, supported structured-output schema shapes, usage accounting and request identifiers. Our adapter records provider metadata when it is returned and rejects malformed output rather than inventing a successful result.
 
-At this stage, a Nebius key has not been supplied. We have not measured actual provider latency, response quality, reliability, token cost, or hardware performance. The comments above concern documentation and adapter implementation, not a completed production workload.
+## Direct runtime feedback is pending
 
-After real tests, replace this section with observed model ID, source fixture, usage, latency, schema behavior, failure cases and specific changes requested. Do not submit invented feedback about service performance.
+No usable Nebius API key is configured, and no real NVIDIA inference has been verified. Account setup remains at new-account terms. We therefore make no firsthand claims about provider latency, response quality, reliability, token cost, hardware performance or development speed improvements from actual inference.
 
-## Other infrastructure
+After a real run, update this section with the exact model ID, synthetic source fixture, observed schema behavior, usage, latency, any failure or retry, and a concrete suggestion based on that evidence. A mocked contract test is not runtime feedback.
 
-The web application uses Sites/Cloudflare for application hosting, account authentication and D1/R2 storage. Runtime model inference is designed for Nebius Token Factory. We did not use Nebius AI Cloud, Serverless Jobs, Serverless Endpoints, NVIDIA physical hardware or Tavily, and claim none of those integrations.
+## Other services used
+
+The active frontend is hosted at [recallroom.web.app](https://recallroom.web.app) on Firebase Hosting. Firebase Authentication, Firestore, private Google Cloud Storage, an isolated Cloud Run API and Cloud Tasks support the application. Those services host the app; they do not replace the NVIDIA model on Nebius requirement.
+
+OpenAI TTS generated the disclosed neutral synthetic narration for the demo. It does not imitate Shivam's voice and is not part of the recall-extraction pipeline.
+
+We have not used Nebius AI Cloud, Nebius Serverless Jobs, Nebius Serverless Endpoints, NVIDIA physical hardware or Tavily in this implementation and claim none of those integrations.

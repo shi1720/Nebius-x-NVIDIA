@@ -2,62 +2,77 @@
 
 **A recall starts with one lot. Know where it ends.**
 
-RecallRoom turns receiving logs, batch sheets and shipment records into an evidence-backed recall investigation. NVIDIA Nemotron proposes structured facts through Nebius Token Factory. Deterministic code traces the lots and checks quantities. A quality reviewer resolves uncertainty and controls every decision.
+RecallRoom connects receiving logs, batch sheets and shipment records into an evidence-backed recall investigation. It is built for small food manufacturers and co-packers working with the records they already have.
 
-[Try the public synthetic drill](https://recallroom.sg127977958.chatgpt.site) · [Three-minute demo script](docs/submission/demo-script.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Product brief](docs/pitch/RecallRoom-product-brief.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
+[Open the Firebase demo](https://recallroom.web.app) · [Testing instructions](docs/submission/devpost-fields.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
 
-Built for the **Nebius x NVIDIA Global AI Hackathon · Best Apps and Agents** by **Shivam Gupta**, with AI-assisted implementation and research.
+Created by **Shivam Gupta** for the **Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents**, with AI-assisted implementation, research and testing. Public code is licensed under MIT.
 
-> **Readiness:** the application, deterministic sample, provider adapter, and local tests are implemented. A real Nebius API key is required to verify live model execution. The sample never pretends to be a model response. Public video and final Devpost submission remain separate release gates. See [status](docs/STATUS.md).
+> **Current status:** the public synthetic drill and Firebase application are deployed. The NVIDIA Nemotron adapter is implemented, but real Nebius execution remains unverified because no usable Nebius credential is configured. An OpenAI API key does not satisfy that requirement. See [delivery status](docs/STATUS.md) for the remaining acceptance gates.
 
-![RecallRoom working incident room](docs/screenshots/incident-room.png)
+![RecallRoom incident room](docs/screenshots/firebase-desktop.png)
 
-## The 60-second judge walkthrough
+## Try the two-minute investigation
 
-1. Open the public drill; no account is needed. All organizations and records are fictional.
-2. One recalled peanut butter lot reaches **800 finished units**, **600 dispatched units**, and **three customers**. Another **240 units stay on precautionary hold** because a batch sheet uses the ambiguous label `PB-Sept`.
-3. Click a graph node. Inspect the exact source row, then the original document.
-4. Choose **Review the source record**. Use the signed clarification to exclude `PB-0901-A → COO-0904`. The 240-unit hold disappears from the recorded recall path, while the decision and its evidence remain in history.
-5. In **Review & export**, confirm the alternate `PB-0901-B → COO-0904` relationship using the same clarification. All recorded relationships are now reviewed. The recalled ingredient balance becomes **50 kg remaining**, separate from finished-unit totals.
-6. Acknowledge the packet’s scope and download it. The HTML packet contains a print-to-PDF control, customer-specific drafts, a shipment register, source citations, decisions and model provenance. No messages are sent.
+1. Open [recallroom.web.app](https://recallroom.web.app). The public drill needs no account. All organizations and source records are fictional; changes last for the current visit.
+2. Follow recalled peanut-butter lot `PB-0901-A`. Its confirmed path reaches **800 finished units**, including **600 shipped units** across **three customers**. Another **240 cookies stay on precautionary hold** because the production record says only `PB-Sept`.
+3. Select a graph node and inspect its exact source quotation and original document.
+4. Choose **Review the source record**. Use the supplied batch clarification to exclude `PB-0901-A → COO-0904`, then confirm `PB-0901-B → COO-0904` in **Review & export**. Each decision needs the supporting document, exact quote and review reason.
+5. The cookie hold leaves this recall path. The confirmed count remains 800; the recorded recalled-ingredient balance becomes **50 kg remaining**. The excluded relationship and supporting evidence remain in history.
+6. Acknowledge the packet scope and export HTML, CSV or JSON. Open the HTML packet and use its print control to save a PDF. Customer messages are drafts; the app sends none.
 
-The app intentionally says **“outside the recorded path”**, never “safe.” Unknown production inputs stay held. Potential use remains a quantity range. It does not certify food safety, automatically release inventory, or replace a recall coordinator.
+The application says **outside the recorded path**, never **safe**. It does not certify food safety, release inventory or replace the recall coordinator.
 
-## What works
+## Implemented workflow
 
-- **Public, isolated synthetic drill** with no login or API cost; changes last for the current visit.
-- **Private sign-in and persistence:** ChatGPT sign-in, account-owned investigations in Cloudflare D1, source originals in R2, optimistic revision checks.
-- **Source ingestion:** TXT, CSV, JSON, and selectable-text PDFs. Plain text is derived from uploaded bytes on the server. Browser-extracted PDF text has its own hash and requires explicit comparison with the original before it can authorize an import or review decision.
-- **Live NVIDIA extraction adapter:** strict JSON-schema request, validated response, real provider usage and cost estimate, bounded retries/timeouts, daily user/global request caps, one active extraction per investigation.
-- **Human approval gate:** the model’s proposal is distinct from approved records. Editable JSON and cited-record views share the same proposal. Invalid citations, missing lot references, cycles, incompatible units, impossible balances and duplicate IDs block import.
-- **Deterministic trace:** affected versus possible paths, multi-hop propagation, unknown-input holds, net quantities after confirmed repacking, and inventory ranges for uncertain use.
-- **Evidence-backed decisions:** exclusion retains the original relationship, exact supporting quote, reviewer, reason, timestamp and revision.
-- **Portable output:** HTML/PDF-ready investigation packet, shipment CSV protected against spreadsheet formula injection, JSON snapshot, and unsent customer drafts.
-- **Structured browser tools:** `read_recall_scope` and `inspect_recall_record` expose the same visible investigation through WebMCP where supported.
+- **Private investigations:** Firebase Google or email/password sign-in, server-verified ID tokens, account-owned Firestore state and private Google Cloud Storage originals.
+- **Source ingestion:** TXT, CSV, JSON and selectable-text PDFs. Plain-text content is derived from original bytes on the server. Browser-extracted PDF text has a separate hash and requires a reviewer to compare it with the original before it can authorize an import or decision.
+- **NVIDIA extraction adapter:** strict structured-output requests to Nebius Token Factory, schema and evidence validation, bounded retries, usage recording, daily quotas and asynchronous Cloud Tasks execution. Live verification is pending.
+- **Human approval:** model proposals remain separate from approved records. Invalid citations, references, cycles, units, balances and duplicate identities block import.
+- **Deterministic tracing:** confirmed and possible paths, unknown-input holds, multi-hop propagation, repacking without double counting, and ingredient balances that retain uncertainty as ranges.
+- **Reviewable decisions:** exclusions preserve the original relationship, quotation, reviewer, reason, timestamp and revision.
+- **Portable output:** escaped HTML/PDF-ready packets, formula-neutralized CSV, JSON snapshots and unsent customer-specific drafts.
+- **Browser tools:** `read_recall_scope` and `inspect_recall_record` expose the same visible investigation through WebMCP where supported.
 
 ## Run locally
 
-Prerequisites: Node.js **22.13+**, npm, Python 3 for the quota regression test. No Docker or paid database account is needed for local development.
+Prerequisites: Node.js **22.13+** and npm. The public synthetic drill does not need a model credential.
 
 ```bash
 git clone https://github.com/shi1720/Nebius-x-NVIDIA.git
 cd Nebius-x-NVIDIA
 npm ci
 cp .env.example .env
-npm run build
-npm run db:local
 npm run dev
 ```
 
-Open the URL printed by the server, normally `http://localhost:5173`. Public sample mode is immediately usable. Local **Sign in** uses a clearly local mock identity (`Seedy`) supplied by the development gateway; it is not a password system and is not used in production.
+Open `http://127.0.0.1:5173`. To develop the private workflow, configure your own Firebase project, enable Google or email/password authentication, and put its public web configuration in `public/firebase-config.json`. Authorize the local hostname in Firebase Authentication. Never put a service-account key or model credential in that public file.
 
-`npm run db:local` applies only pending local migrations and is safe to rerun. Deployment applies production migrations separately. Never replay migrations manually against production.
+The API uses Google Application Default Credentials and the configured cloud resources. An emulator-only private workflow is not supplied. Use a dedicated development project and synthetic data. Configure these server values in your ignored `.env`:
 
-### Enable real NVIDIA inference
+```dotenv
+GOOGLE_CLOUD_PROJECT=your-firebase-project-id
+STORAGE_BUCKET=your-private-evidence-bucket
+APP_ORIGIN=http://127.0.0.1:5173
+```
 
-1. Create an API key in [Nebius Token Factory](https://tokenfactory.nebius.com/project/api-keys).
-2. [Hackathon resources](https://nebiusglobalaihackathon.devpost.com/resources) advertise $25 in credits with `NEBIUS-DEVPOST-GLOBAL26`; check current eligibility and redemption terms.
-3. Set the values in your ignored `.env`:
+Start the two development servers in separate terminals:
+
+```bash
+# API on port 3000; requires authorized Google Application Default Credentials
+npm run dev:api
+```
+
+```bash
+# Static frontend on port 5173
+VITE_API_ORIGIN=http://localhost:3000 npm run dev
+```
+
+Use the exact frontend origin configured in `APP_ORIGIN`. API mutations reject other origins. Private extraction also needs the Cloud Tasks settings described in [operations](docs/operations.md); it is not an inline development shortcut.
+
+## Enable real NVIDIA inference
+
+Create a credential in [Nebius Token Factory](https://tokenfactory.nebius.com/project/api-keys), then set the server-side environment:
 
 ```dotenv
 NEBIUS_API_KEY=your_key
@@ -67,68 +82,57 @@ NEBIUS_DAILY_USER_LIMIT=20
 NEBIUS_DAILY_GLOBAL_LIMIT=100
 ```
 
-4. Restart the dev server. Sign in, create an empty investigation, upload source records, and choose **Extract with Nemotron**.
-5. Review the cited proposal, correct any errors, and explicitly approve import. Then select the recalled lots.
-6. Run the real-provider acceptance check:
+Production keys belong in the server's secret configuration. Never commit them or add them to a `VITE_` variable. After configuration, run:
 
 ```bash
 npm run test:live
 ```
 
-This performs **metered, real API calls** on synthetic source documents, validates the live model catalog, and writes `docs/evaluation/live-nebius.json`. A missing key exits with a visible blocker; it never writes a fake passing result. One synthetic fixture is not evidence of real-world extraction accuracy.
+This makes **metered real provider calls** on synthetic documents, validates the model catalog and writes a sanitized result to `docs/evaluation/live-nebius.json`. A missing key exits with a visible blocker. Mock tests and the public sample cannot establish live model execution or real-world extraction accuracy.
 
-The global Token Factory endpoint avoids hardcoding a region that can change. Do not claim data residency from a public endpoint. See [Nebius public inference documentation](https://docs.tokenfactory.nebius.com/public-serverless).
+In the app, sign in, create an empty investigation, upload records and choose **Extract with Nemotron**. Review the proposal before **Import reviewed records**, then select the recalled lot. The queued request has a visible status; a failed extraction leaves approved records unchanged.
 
-## Test and verify
+## Test and build
 
 ```bash
 npm run typecheck
 npm test
-npm run test:quota
-npm run build
-# With the local dev server running:
-npm run test:api
+npm run build:api
+npm run build:web
 ```
 
-The unit suite covers reachability against an independent oracle over **150 generated graphs**, repacking, uncertainty, source validation, duplicate identities, quantity overflow, malicious export content, and mocked provider contracts. Mock tests verify integration behavior; they do not establish live model quality.
+The current automated suite has **37 passing tests**. The graph checks include comparison with an independent fixed-point oracle over 150 generated graphs. Provider-contract tests use explicit mocks.
 
-The local API suite creates disposable synthetic investigations and verifies the auth boundary, source provenance, D1 persistence, R2 downloads, review validation, revision conflicts and cleanup. It refuses to run against a non-local URL. See [evaluation record](docs/evaluation/README.md).
+The Firebase acceptance suite exercises the deployed API with real disposable Firebase accounts and synthetic records:
 
-## Deployment
-
-The application is a Cloudflare-compatible Worker built with React, TypeScript and Vinext. The hosted demo uses Sites for HTTPS, authentication dispatch, D1 and R2. Runtime inference uses **NVIDIA Nemotron on Nebius Token Factory**; app hosting outside Nebius is allowed by the hackathon rules.
-
-- `.openai/hosting.json` contains only the Site identity and logical `DB` / `BUCKET` bindings.
-- Runtime secrets belong in the hosting environment, **not** source files or this manifest.
-- The host must strip caller-provided `oai-authenticated-*` headers and supply authenticated identity. Do **not** expose the Worker directly on an untrusted origin with those headers accepted.
-- The public route always serves fictional data. Saved records require sign-in and server-side owner checks.
-- Keep the judge demo available free of charge through **December 15, 2026**, the end of the stated judging period.
-- See [deployment and operations](docs/operations.md) for exact release gates, retention limitations and recovery procedures.
-
-## Structure
-
-```text
-app/                 Public drill, protected workspace, API routes
-components/          Incident room, graph, source/review/export interfaces
-lib/domain.ts        Schemas, evidence checks, trace and review logic
-lib/nebius.ts        Real NVIDIA/Nebius structured extraction adapter
-lib/server.ts        Account scope, revision guards, inference reservation
-lib/export.ts        Escaped packet, CSV and customer draft generation
-db/ + drizzle/       Durable schema and append-only deployment migrations
-tests/               Algorithm and provider-contract regression tests
-public/samples/      Six clearly fictional source files
-docs/submission/     Research, business model, Devpost copy and narration
-docs/examples/       Example investigation and preliminary packet
+```bash
+RECALLROOM_API_URL=https://recallroom-api-812985487554.us-central1.run.app node scripts/test-firebase-api.mjs
 ```
 
-## Commercial thesis and limitations
+It checks authentication, account isolation, persistence, uploads, source quotations, review actions, exports, errors and cleanup. It does not call a model or replace browser testing. See the generated [Firebase report](docs/evaluation/firebase-api.json) and [current status](docs/STATUS.md) for the actual latest result.
 
-The initial buyer is a quality manager at a small food manufacturer or co-packer, with food-safety consultants as a potential channel. The wedge is a recall room **over existing exports**, rather than a replacement ERP. Monthly readiness drills create repeat use between incidents. **$99/site/month is a pricing hypothesis**, not validated demand. FoodDocs, Mar-Kov and TraceGains already address traceability or supplier records; we do not claim to be the first or only solution.
+`npm run test:quota`, `npm run test:api` and `npm run db:local` refer to the previous SQLite/Cloudflare implementation. They remain historical tooling and do not verify or initialize the active Firebase application. Earlier CI results are historical, not evidence that the Firebase migration passed CI.
 
-The current scope is deliberately explicit: 12 documents / 90,000 extracted text characters per investigation; 2 MB files; up to 100 lots; ingredients in kg and finished goods in whole units. Scanned-image OCR, ERP connectors, inventory release controls, regulatory certification, collaborative team roles, automated customer sending, billing and independently validated real-world extraction performance are not implemented. The product is an evaluated MVP foundation, not a certified production food-safety system.
+## Hosting
 
-## Attribution and license
+The active public application is [recallroom.web.app](https://recallroom.web.app), built as a static Vite/React frontend on **Firebase Hosting**. A **Next.js API on Cloud Run** verifies Firebase credentials and controls all private data access. Firestore holds investigation state; a private Google Cloud Storage bucket holds originals. Cloud Tasks dispatches authenticated background extraction work.
 
-MIT © 2026 **Shivam Gupta**. Shivam set the project objectives, quality bar, commercial constraints and submission direction. Implementation, research and review were AI-assisted; no unverified manual coding, customer interviews or business results are attributed to him. New hackathon project started September 16, 2026.
+Firebase project `recallroom-ai-2026` contains Authentication, Hosting and Firestore. The isolated API service, task queue and evidence bucket use the existing billed Google Cloud project `granted-ai-2026`. These identifiers are infrastructure names; the product is RecallRoom. No Sites, D1 or R2 binding is used by the active runtime.
 
-Third-party packages retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md).
+`npm run deploy` runs the repository's Firebase deployment script. Read [operations](docs/operations.md) before deploying to a different account or project. Model inference remains targeted at NVIDIA Nemotron on Nebius Token Factory. Firebase app hosting does not by itself meet the hackathon's NVIDIA/Nebius runtime requirement.
+
+## Commercial scope and limits
+
+The initial buyer hypothesis is a quality manager at a small food manufacturer or co-packer, with consultants as a potential channel. Recurring readiness drills can make the workflow useful between incidents. **$99 per site per month is an unvalidated pricing hypothesis**, not traction or a billing feature. Existing products such as FoodDocs, Mar-Kov and TraceGains already address food-safety or traceability workflows.
+
+The MVP supports 12 documents and 90,000 extracted characters per investigation, 2 MB files, up to 100 lots, ingredient quantities in kg and finished goods in whole units. Scanned-image OCR, ERP connectors, team roles, billing, automatic messaging, regulatory certification and independently validated real-world extraction performance are not implemented. It is an evaluated MVP, not a certified food-safety system.
+
+## Attribution
+
+MIT © 2026 **Shivam Gupta**. Shivam set the objectives, product direction, commercial constraints and quality bar. Implementation, research and testing were AI-assisted. The demo uses disclosed neutral synthetic narration; it does not imitate Shivam's voice. No customer interviews, business results or unverified manual contributions are attributed to him. The project started September 16, 2026.
+
+Third-party packages retain their own licenses. See [third-party notices](THIRD_PARTY_NOTICES.md).
+
+## Recorded walkthrough
+
+Watch the [captioned 2:25 demo](https://recallroom.web.app/demo.html). It uses actual captured application screens and a disclosed AI voice. The recording explicitly identifies live Nebius inference as pending. [Narration and production notes](docs/video/README.md).

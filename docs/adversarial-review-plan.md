@@ -92,17 +92,17 @@ Store source content hashes, extraction model ID, extraction time, prompt/schema
 
 ## 6. Authentication, authorization, and public-demo isolation
 
-Use the supported SIWC authentication flow and validate its documented server-side identity/session mechanism; do not invent verification behavior or trust a client-provided user ID. Map the verified identity to server-side workspace membership. D1 persistence alone does not enforce tenant isolation.
+The active deployment uses Firebase Google or email/password authentication. Verify Firebase ID tokens server-side, including revocation, and map the verified UID to each investigation owner. Firestore persistence alone does not establish ownership. Ignore legacy platform identity headers. Cloud Tasks requires its separate OIDC audience and exact service-account identity; a normal signed-in user cannot invoke the extraction handler.
 
 - Every read and write for lots, links, shipments, documents, drafts, analyses, audit records, jobs, and exports must be scoped by authorized workspace membership.
 - Test two real authenticated accounts, two workspaces, and each account's inaccessible IDs. Attempt cross-workspace GET, POST, PATCH, DELETE, approval, file retrieval, job status, and export requests with guessed IDs.
 - Workspace IDs in URLs, bodies, query strings, and model output are selectors, not authority. Reject mismatched parent/child references even when each ID exists elsewhere.
-- Enforce reviewer/write roles on the server. Hidden buttons provide no authorization.
+- Enforce owner-scoped writes on the server. Team reviewer roles are not implemented; if added, test their permissions separately. Hidden buttons provide no authorization.
 - Verify unauthenticated requests, expired/tampered sessions, logout, session renewal, and direct API access without UI navigation. Check CSRF/origin requirements of the actual auth mechanism.
 - Public sample mode uses synthetic records and an isolated namespace. A public request must not create a private workspace, inspect another sample session, or receive signed-in data from a cache.
 - Define whether sample mutations are session-isolated or disabled. Resetting one visitor's demo cannot erase another visitor's work or persistent user records.
 - Cache keys include workspace, graph revision, and relevant request parameters. Responses containing private data must not enter shared public caches.
-- Use parameterized SQL and bounded pagination; validate all interpolated sort columns through an allowlist.
+- Use owner-scoped Firestore queries and bounded result limits. Reserve coupled quotas and revision locks in transactions. Do not treat a client query filter as authorization.
 - Server secrets cannot appear in static JS, source maps, exports, error payloads, logs, database rows intended for clients, or repository files.
 - Check user-controlled URL/file handling for SSRF, path traversal, content-type confusion, and file size/decompression abuse if these features exist.
 

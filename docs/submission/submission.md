@@ -1,81 +1,68 @@
-# RecallRoom · Submission copy
+# RecallRoom project story
 
-**Owner:** Shivam Gupta  
-**Recommended track:** Best Apps and Agents  
-**Editorial status:** Draft. Update implementation and verification statements after the final build review. A live Nebius credential has not yet been supplied for runtime verification.
+**Creator:** Shivam Gupta  
+**Track:** Best Apps and Agents  
+**Demo:** https://recallroom.web.app  
+**Repository:** https://github.com/shi1720/Nebius-x-NVIDIA
 
-## Project name
-
-RecallRoom
-
-## Tagline
-
-Turn scattered food-production records into an evidence-backed recall response.
+**Publication status:** The story below reflects the implemented Firebase application. Live NVIDIA inference remains unverified, and final hosted acceptance is still in progress. Keep those qualifications until recorded evidence supports changing them. Do not submit a pending integration as a verified hackathon requirement.
 
 ## Inspiration
 
-When a supplier recalls an ingredient lot, a food manufacturer needs to answer a concrete question: which finished products and customers could it have reached? The evidence may be split across receiving sheets, batch records, and shipment exports. A fluent answer is not enough. The team needs to see the source, understand uncertainty, and review the action.
+A supplier sends a recall notice for one ingredient lot. Somewhere in a small food business, a quality manager opens a receiving spreadsheet, a folder of batch sheets, and a shipment export.
 
-RecallRoom is built around that moment. Its intended users are small food manufacturers, co-packers, and the quality professionals who help them prepare for recalls.
+The question is urgent and concrete: **Which products did this ingredient reach, and who received them?**
+
+One record says `PB-0901-A`. Another says `PB-Sept`. Guessing that they mean the same thing can change the scope of the response. Ignoring the mismatch can hide a problem.
+
+We built RecallRoom for that moment. Our starting point was a practical constraint: smaller manufacturers and co-packers need to work with the records they already have. A useful product should help them reconstruct the evidence, find what is missing, and prepare a response they can explain.
 
 ## What it does
 
-RecallRoom is an incident workspace for reconstructing lot lineage from supplied records. Its core workflow connects a recalled ingredient to production batches and customer shipments, shows the evidence behind each relationship, and keeps unresolved lot references visible for human review. The response packet brings the scope, evidence, open issues, and customer-specific communication drafts together.
+RecallRoom brings receiving records, production batches, and customer shipments into one investigation. An interactive graph shows how a recalled ingredient moves through finished products to customers. Select a record to inspect the source behind it.
 
-The fictional demonstration starts with peanut-butter lot PB-0901-A. Its confirmed lineage reaches 800 finished units: 480 oat bars and 320 energy bites. Of those, 600 have shipped to three customers and 200 remain on site. A 240-cookie batch has an ambiguous reference, so its 120 shipped units remain a separate issue requiring investigation. A different 360-bar batch references PB-0901-B. Every number describes synthetic demo records, not a real incident or customer result.
+The fictional demonstration begins with one peanut-butter lot. Its confirmed path reaches **800 finished units**: 480 oat bars and 320 energy bites. Of those, 600 units have shipped to three customers and 200 remain on site.
 
-## How we are building it
+A separate batch of 240 cookies uses an ambiguous lot reference. RecallRoom keeps those cookies on a precautionary hold within the investigation instead of folding them into the confirmed count. A supplied clarification identifies the other ingredient lot. A reviewer can use that evidence to exclude the recalled-lot relationship and confirm the alternative relationship. The original link, supporting quote, and decision remain in the audit history.
 
-The intended pipeline uses NVIDIA Nemotron through Nebius Token Factory to interpret records and propose structured, evidence-linked relationships. Application code validates those structures and computes the lot graph and shipment scope. Human reviewers resolve ambiguous evidence and control the response. This separation makes it possible to test important behavior independently of a model's prose.
+The exportable response packet brings together the shipment register, source citations, remaining uncertainties, review decisions, and customer-specific message drafts. The app prepares those drafts; a person controls any communication or operational action.
 
-The open-model approach gives us a practical route to inspectable, portable inference. We are instrumenting the integration so the final submission can show the model identifier, provider, token usage, latency, and any failure or retry rather than presenting an unverified “AI-powered” label.
+## How we built it
 
-**Current verification limit:** Live Nebius execution is pending a credential. Do not submit this paragraph as a completed integration claim until a successful run and its trace have been recorded. A fixture-backed demonstration is useful for review, but does not establish compliance with the hackathon's live infrastructure requirement.
+RecallRoom uses React and TypeScript, served as a static application on Firebase Hosting at [recallroom.web.app](https://recallroom.web.app). Firebase Authentication supports Google and email/password sign-in. A Cloud Run API verifies identity and controls account-owned Firestore investigations and private Google Cloud Storage originals. Cloud Tasks runs authenticated background extraction jobs so a long model request does not block the web request.
 
-## What makes it different
+We built a structured-extraction adapter for **NVIDIA Nemotron through Nebius Token Factory**. It requests evidence-linked JSON, validates the returned structure, and records provider details, usage, and latency when a request succeeds. **Live Nebius execution is still awaiting verification; the public synthetic drill does not impersonate a model response.**
 
-Traceability and recall products already exist. RecallRoom's proposed focus is an incident workspace over records the business already has, with each scope decision tied to source evidence and uncertainty treated as part of the result. The defining demonstration is the ambiguous lot reference: the application should preserve the unresolved exposure instead of generating an unjustified all-clear.
+The model proposes records. Deterministic application code validates citations, lot references, units, quantities, and graph structure, then calculates the recall scope. A human reviews the proposal before import and supplies evidence for relationship changes. This separation lets us test the calculations independently and inspect the reasoning behind a result.
 
-## Challenges
+The code is public under the MIT license. The repository includes setup instructions, synthetic source documents, automated tests, and reproducible evaluation commands.
 
-The hard part is preserving identity and uncertainty across inconsistent documents. Similar-looking lot codes can refer to different material. A missing relationship does not establish that a shipment is unaffected. Units and kilograms also cannot be reconciled without the relevant production quantities. These constraints guide the validation rules and evaluation cases.
+## Challenges we ran into
 
-## What we are proud of
+The hardest challenge was representing uncertainty without making it disappear in a polished answer. An ambiguous lot label must remain visible through the graph, shipment totals, ingredient balances, and exported packet.
 
-The product design makes a technical trust boundary visible: the model interprets messy evidence; deterministic checks compute scope; a person reviews the decision. The goal is a complete, understandable workflow for a quality professional, rather than a chat interface that hides how its answer was formed.
+Quantity accounting needed equal care. Kilograms of an ingredient are different from units of finished goods. Repacking can create multiple graph nodes for the same physical output. Our calculations keep these quantities separate and avoid counting intermediate production twice.
+
+Evidence also needs a trustworthy path into the system. Text uploads are read from their original bytes. Extracted PDF text requires a reviewer to compare it with the original before it can authorize an import or decision. Stale edits, duplicate files, invalid source quotes, and concurrent extraction requests each needed explicit handling.
+
+## Accomplishments that we're proud of
+
+We built a complete investigation workflow around a specific problem: inspect records, trace a lot, review uncertainty, and export the evidence.
+
+The most meaningful moment in the demo is the cookie batch. The scope changes only after a reviewer provides a supporting record, and the excluded relationship stays inspectable afterward. That makes the result easier to explain to the next person who opens the case.
+
+Our current automated suite passes 37 tests covering the domain logic, evidence checks, exports, and mocked provider contracts. The hosted Firebase API passed 58 checks, and 10 operator checks verified concurrent quotas and expired-lock behavior against the production Firestore functions. These results cover the application boundary; live NVIDIA inference still needs verification. The graph suite also checks its results against an independent calculation over 150 generated graphs. These are engineering checks, not claims about real-world recall accuracy.
 
 ## What we learned
 
-Our desk research highlighted that existing business records often hold useful information, while inconsistent lot identity and missing source information can prevent reliable tracing. It also clarified the competitive landscape: the opportunity is a focused workflow with lower adoption friction, not a claim that recall software is new.
+In this workflow, the useful output is a reviewable chain of evidence. A fluent explanation cannot repair a missing lot identity. Showing what remains unresolved can be more useful than making the dashboard look complete.
 
-## What's next
+We also learned to evaluate commercial viability beyond token cost. Onboarding, messy records, and the time needed for human review will matter to a small customer. Our initial business hypothesis is recurring recall-readiness drills over existing exports, with food-safety consultants as a potential channel. A proposed $99 per site monthly price is a hypothesis to test, not established demand.
 
-Validate the workflow with quality managers and consultants, evaluate de-identified drill packets against human-authored answer keys, and test whether repeated readiness drills support paid usage. Broader file support and operational integrations should follow demonstrated reliability on the narrow initial workflow.
+## What's next for RecallRoom
 
-## Commercial potential
+First, complete and record real NVIDIA inference on Nebius and finish acceptance of the deployed private workflow. Then work with quality professionals to evaluate permitted drill packets against human-authored answer keys. We want to measure incorrect links, missed exposure, unsupported exclusions, and review time before expanding the scope.
 
-The initial business hypothesis is a $49 single drill or $99 per site per month for recurring readiness. These prices are experiments; there are no paying customers or validated savings to report. Token-cost calculations suggest inference may be a small part of cost, while onboarding and support deserve close attention.
+Next would come better document adapters, consultant workflows, and integrations guided by those evaluations. The commercial question is whether teams will return for the next drill and pay for a result they can inspect.
 
-## Credits
-
-Created by **Shivam Gupta**, with AI-assisted research, implementation, testing, and documentation. The repository history and project documentation should reflect actual contributions. Do not invent interviews, customer feedback, or personal actions.
-
-## Feedback for Nebius and NVIDIA
-
-**Before live testing:** No firsthand runtime feedback is available yet. The integration requirements we intend to assess are structured-output reliability, model discovery, request tracing, latency, retry behavior, and usage accounting.
-
-**After live testing:** Replace this note with observed behavior, exact model/provider details, reproducible requests, and concrete improvement suggestions. Distinguish documentation feedback from behavior observed in the API. Do not claim the service accelerated development or reduced cost without a relevant comparison.
-
-## Submission completion checklist
-
-- [ ] Working demo URL, tested from a fresh unauthenticated browser.
-- [ ] Public repository URL with an open-source license and clear setup instructions.
-- [ ] Verified live Nebius run using an NVIDIA open-source model; recorded model ID and sanitized request trace.
-- [ ] Uploaded public YouTube video, at most three minutes, with audible Nebius/NVIDIA explanation.
-- [ ] Accurate feature and test status; remove unimplemented functionality from submission copy.
-- [ ] Feedback based on actual service use.
-- [ ] Confirm official eligibility and current rules before submission.
-- [ ] State whether this project existed before the submission period; use repository history and actual creation dates.
-- [ ] Attend-city selection only if Shivam actually attended an eligible event.
-
-Do not mark this submission ready until the live runtime, public demo, repository, and video requirements are completed.
+RecallRoom was created by **Shivam Gupta**, who set the product direction, commercial constraints, and quality bar, with AI-assisted implementation, research, and testing.

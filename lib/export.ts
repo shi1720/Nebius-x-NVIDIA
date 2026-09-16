@@ -1,4 +1,4 @@
-import { trace, type Investigation } from "./domain";
+import { traceInvestigation, type Investigation } from "./domain";
 export const escapeHtml = (value: unknown) =>
   String(value).replace(
     /[&<>"']/g,
@@ -14,7 +14,7 @@ export const csvCell = (v: unknown) => {
   return '"' + s.replace(/"/g, '""') + '"';
 };
 export function shipmentCsv(inv: Investigation) {
-  const t = trace(inv.dataset, inv.recalledLotIds, inv.documents);
+  const t = traceInvestigation(inv);
   const rows = [
     [
       "investigation_id",
@@ -28,6 +28,7 @@ export function shipmentCsv(inv: Investigation) {
       "scope",
       "source_document",
       "source_quote",
+      "review_status",
     ],
     ...t.shipments.map((s) => [
       inv.id,
@@ -43,19 +44,24 @@ export function shipmentCsv(inv: Investigation) {
         : s.status,
       s.evidence.documentId,
       s.evidence.quote,
+      inv.needsSourceReview
+        ? "PRELIMINARY: new evidence is awaiting review; quantities reflect the last approved trace"
+        : t.canFinalize
+          ? "Recorded scope reviewed"
+          : "Preliminary: open questions remain",
     ]),
   ];
   return "\uFEFF" + rows.map((r) => r.map(csvCell).join(",")).join("\r\n");
 }
 export function customerDraft(inv: Investigation, customer: string) {
-  const t = trace(inv.dataset, inv.recalledLotIds, inv.documents),
+  const t = traceInvestigation(inv),
     shipments = t.shipments.filter(
       (s) => s.customer === customer && s.status !== "outside",
     );
-  return `DRAFT — QUALITY REVIEW REQUIRED — NOT SENT\n${inv.isSample ? "SYNTHETIC RECALL DRILL — FICTIONAL SCENARIO\n" : ""}\nTo: ${customer}\nSubject: Product hold request — ${inv.organization} — ${inv.title}\n\nWe are investigating a supplier alert involving ${inv.recalledLotIds.join(", ")}: ${inv.hazard}.\n\nPlease locate and segregate the following recorded shipments pending instructions from your quality contact:\n${shipments.map((s) => `• ${s.lotId} | Shipment ${s.id} | ${s.quantity} ${s.unit} | ${s.date} | ${s.status === "hold" ? "PRECAUTIONARY HOLD — relationship unresolved" : "CONFIRMED RECORDED CONNECTION"}`).join("\n")}\n\nPlease confirm quantities received, remaining, and redistributed, and identify any downstream recipients. The listed shipment quantities are historical dispatch records, not a confirmed count currently held at your site.\n\nA quality manager must verify recipients, identifiers, hazard details, and response instructions before sending. No message has been sent by RecallRoom.\n\nPrepared from RecallRoom investigation ${inv.id}, revision ${inv.revision}.\n`;
+  return `DRAFT - QUALITY REVIEW REQUIRED - NOT SENT\n${inv.isSample ? "SYNTHETIC RECALL DRILL - FICTIONAL SCENARIO\n" : ""}${inv.needsSourceReview ? "\nNEW EVIDENCE AWAITS REVIEW: this draft uses the last approved trace and may omit new shipments. Review the current sources before sending.\n" : ""}\nTo: ${customer}\nSubject: Product hold request - ${inv.organization} - ${inv.title}\n\nWe are investigating a supplier alert involving ${inv.recalledLotIds.join(", ")}: ${inv.hazard}.\n\nPlease locate and segregate the following recorded shipments pending instructions from your quality contact:\n${shipments.map((s) => `• ${s.lotId} | Shipment ${s.id} | ${s.quantity} ${s.unit} | ${s.date} | ${s.status === "hold" ? "PRECAUTIONARY HOLD - relationship unresolved" : "CONFIRMED RECORDED CONNECTION"}`).join("\n")}\n\nPlease confirm quantities received, remaining, and redistributed, and identify any downstream recipients. The listed shipment quantities are historical dispatch records, not a confirmed count currently held at your site.\n\nA quality manager must verify recipients, identifiers, hazard details, and response instructions before sending. No message has been sent by RecallRoom.\n\nPrepared from RecallRoom investigation ${inv.id}, revision ${inv.revision}.\n`;
 }
 export function packetHtml(inv: Investigation) {
-  const t = trace(inv.dataset, inv.recalledLotIds, inv.documents),
+  const t = traceInvestigation(inv),
     e = escapeHtml;
   const customers = [
     ...new Set(

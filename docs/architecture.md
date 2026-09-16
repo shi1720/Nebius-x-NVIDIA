@@ -1,42 +1,65 @@
 # Architecture
 
+The active deployment uses Firebase Hosting, Firebase Authentication, Firestore, Google Cloud Storage, Cloud Run and Cloud Tasks. Legacy Sites, D1 and R2 files are not the current runtime.
+
 ```mermaid
 flowchart LR
-  A[Original files] --> B[Private R2 originals + hashes]
-  A --> C[Text extraction]
-  C --> D[NVIDIA Nemotron on Nebius Token Factory]
-  D --> E[Strict schema + quote + semantic checks]
-  E --> F[Unapproved proposal]
-  F --> G[Human review]
-  G --> H[Approved D1 investigation]
-  H --> I[Deterministic lot graph + quantity ranges]
-  I --> J[Evidence-backed decision]
-  J --> H
-  I --> K[HTML / CSV / JSON packet]
+  UI[React on Firebase Hosting] --> AUTH[Firebase Google or email sign-in]
+  AUTH --> TOKEN[Firebase ID token]
+  TOKEN --> API[Cloud Run API verifies token]
+  UI --> API
+  API --> DB[Owner-scoped Firestore state]
+  API --> FILE[Private GCS originals and hashes]
+  API --> QUEUE[Cloud Tasks with OIDC]
+  QUEUE --> JOB[Authenticated background handler]
+  JOB --> MODEL[NVIDIA Nemotron on Nebius Token Factory]
+  MODEL --> CHECK[Schema, quotation and semantic checks]
+  CHECK --> DRAFT[Unapproved proposal in Firestore]
+  DRAFT --> REVIEW[Human review]
+  REVIEW --> TRACE[Deterministic graph and quantity ranges]
+  TRACE --> PACKET[HTML, CSV and JSON output]
 ```
 
-## Boundaries
+## Trust boundaries
 
-**AI:** converts heterogeneous text into proposed lots, consumption links and shipments. It does not choose stock-release actions or determine safety. Source documents are untrusted data. The model has no tools, credentials, network destinations or application write capability. Every proposed record needs a source document and exact quote. Quote matching alone does not establish semantic truth, so a human checks extracted identities, amounts and relationships.
+**AI:** interprets source text into proposed lots, consumption links and shipments. It has no tools, application credentials or write access. Every proposed record requires a source document and exact quotation. Quote matching does not establish semantic truth, so a human checks identities, amounts and relationships. The adapter is implemented; live NVIDIA execution is not yet verified.
 
-**Code:** schema validation, source quotation checks, graph reachability, reference integrity, cycle rejection, units, physical balances, source ownership, exports and budget enforcement. Confirmed reachability propagates only through confirmed edges; possible edges propagate precautionary holds. A confirmed path dominates an alternate possible path. Unlinked production is held as unknown. Intermediate consumption is subtracted from tracked output so repacking does not double count units.
+**Code:** validates schema, references, source ownership, quotations, cycles, units, physical balances and revisions. Confirmed links propagate confirmed exposure; possible links propagate precautionary holds. A confirmed path dominates an alternative possible path. Unknown production inputs remain held. Intermediate consumption is subtracted so repacking does not count output twice.
 
-**Human:** selects the recalled lots, compares PDF text with originals, approves extraction, resolves ambiguity with cited evidence, verifies record completeness, and decides all operational actions.
+**Human:** selects recalled lots, compares PDF text with originals, approves proposals, resolves uncertainty using cited evidence, assesses record completeness and controls operational actions. The app does not release stock or send customer messages.
 
-## Storage
+## Authentication and access
 
-D1 stores account-owned investigation state and revision, structured review decisions, audit events and model runs. R2 stores uploaded originals. Plain-text files are decoded from original bytes on the server. PDF text is extracted in the browser, stored with a separate text SHA-256, and explicitly unverified until a reviewer attests comparison with the original. SHA-256 provides a content identifier, not a claim of digital-signature authenticity.
+The static public route is an ephemeral synthetic drill. Private workspaces use Firebase Google or email/password sign-in. The browser attaches a Firebase ID token to API requests. The server verifies its signature, project and revocation status using Firebase Admin before every account lookup. Legacy `oai-authenticated-*` headers do not establish identity.
 
-`inference_jobs` records a budgeted attempt and single-investigation lock in one atomic SQL statement. A rejected reservation consumes no budget. The same statement validates owner and source revision. Approved state writes reject stale revisions and active extraction locks. A completed model result remains recorded in the job even if saving the draft fails; operator recovery is described in operations. Deleting an investigation redacts retained job output while preserving attempt metadata for daily quota enforcement.
+The Cloud Run API accepts the exact frontend origin configured in `APP_ORIGIN`; mutating requests require it. Private Firestore and storage operations happen through the server. Firestore client rules deny direct document access. Original files are served only after an owner-scoped investigation lookup. The browser Firebase configuration identifies a public web app and contains no administrative credentials.
+
+## Storage and consistency
+
+Firestore in `recallroom-ai-2026` stores account-owned investigations, revisions, audit history, extraction state and daily quota counters. Original uploads live in a private Google Cloud Storage bucket in `granted-ai-2026`. The API uses an authorized service identity for those resources.
+
+Text files are decoded from original bytes on the server. Selectable-text PDFs are extracted in the browser with a separate text SHA-256 and remain unverified until a reviewer attests comparison with the original. Hashes identify content; they do not authenticate a signature or prove a record is true.
+
+Firestore transactions reserve coupled per-user and global quotas, validate ownership and source revision, create a job and lock the investigation. Rejected reservations do not consume budget. Approved-state changes reject stale revisions or an active extraction. Serialized investigation state is bounded below Firestore's document size limit.
+
+## Asynchronous extraction
+
+The analyze endpoint reserves a job, enqueues it and returns its identifier. Cloud Tasks sends an OIDC-authenticated request to the background handler. That handler validates the expected audience and service-account identity. The queue permits two concurrent dispatches. Its dispatch deadline and handler duration are 180 seconds; the model adapter separately has a 90-second total inference budget.
+
+A Firestore transaction claims only queued, current jobs. Duplicate deliveries do not start another call. The browser polls status. Completion attaches the proposal only if the investigation still has the matching job and source revision. A failed model call does not change the approved graph. A five-minute stale-job window permits the UI to surface a timeout and retry.
 
 ## Model contract
 
-Default: `nvidia/nemotron-3-super-120b-a12b` via `https://api.tokenfactory.nebius.com/v1/`. A strict JSON schema describes lots, links and shipments; Zod and domain checks validate responses independently. The server records model identifier, provider request ID, prompt version, token usage, latency and estimated cost. There are no credentials in browser bundles.
+Default model: `nvidia/nemotron-3-super-120b-a12b` through `https://api.tokenfactory.nebius.com/v1/`. Strict structured output describes lots, links and shipments. Zod and domain checks independently validate the response. Successful runs record actual model identity, request ID when supplied, prompt version, token usage, latency and an estimated cost.
 
-A request has a 90-second wall-clock inference budget, at most two HTTP attempts for selected transient errors, bounded output, input limits and no silent fallback. Invalid JSON/schema, truncated responses, unavailable models and authentication failures produce actionable errors and never import records.
+The adapter has bounded input and output, at most two HTTP attempts for selected transient failures, a 90-second total budget and no silent provider fallback. Invalid JSON, truncation, schema errors, unavailable models and authentication errors are visible failures. A real successful call is still required to verify this integration.
 
-## Authentication and deployment
+## Deployment topology
 
-Public `/` is an ephemeral synthetic drill. `/workspace` initiates platform-owned ChatGPT sign-in. API routes require authenticated identity and use its user ID in every owner lookup. Mutations require same-origin requests. The platform gateway must strip forged identity headers and block direct untrusted access to the Worker origin. The local gateway implements the same header-stripping boundary with an explicitly local mock login.
+- Firebase Hosting: `https://recallroom.web.app`.
+- Firebase Authentication and Firestore project: `recallroom-ai-2026`.
+- Isolated Cloud Run API: `https://recallroom-api-812985487554.us-central1.run.app`.
+- API, Cloud Tasks and private evidence bucket project: `granted-ai-2026`.
+- Static frontend: Vite and React. API: Next.js on Node.js.
 
-D1/R2 provide durable infrastructure, but this MVP does not include multi-user organizations, external identity providers or a full administrative compliance program. An open-source deployment to a different host must supply an equivalent trusted authentication boundary before exposing private data.
+This separation keeps application hosting independent from the intended Nebius inference workload. It does not imply that Firebase or Google Cloud counts as Nebius infrastructure.

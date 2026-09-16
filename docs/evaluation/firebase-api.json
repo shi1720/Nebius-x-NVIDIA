@@ -1,0 +1,360 @@
+{
+  "at": "2026-09-16T13:24:40.469Z",
+  "mode": "deployed-firebase-api",
+  "apiOrigin": "https://recallroom-api-812985487554.us-central1.run.app",
+  "browserOrigin": "https://recallroom.web.app",
+  "checks": [
+    {
+      "name": "Anonymous investigations list is rejected",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "Forged legacy identity headers are rejected",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "Tampered bearer token is rejected",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "Task endpoint rejects a missing identity",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "Task endpoint rejects an invalid identity",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "account-a: disposable Firebase account created",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "account-a: Firebase issued an ID token",
+      "passed": true
+    },
+    {
+      "name": "account-b: disposable Firebase account created",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "account-b: Firebase issued an ID token",
+      "passed": true
+    },
+    {
+      "name": "Task endpoint rejects a normal Firebase user",
+      "passed": true,
+      "actualStatus": 401
+    },
+    {
+      "name": "Cross-origin create is rejected",
+      "passed": true,
+      "expectedStatus": 403,
+      "actualStatus": 403
+    },
+    {
+      "name": "Allowed-origin CORS preflight succeeds",
+      "passed": true,
+      "actualStatus": 204
+    },
+    {
+      "name": "CORS allow-origin is the exact deployed frontend",
+      "passed": true
+    },
+    {
+      "name": "CORS allows authorization headers",
+      "passed": true
+    },
+    {
+      "name": "case-a: create private investigation",
+      "passed": true,
+      "expectedStatus": 201,
+      "actualStatus": 201
+    },
+    {
+      "name": "case-a: created state includes a revision and synthetic documents",
+      "passed": true
+    },
+    {
+      "name": "case-b: create private investigation",
+      "passed": true,
+      "expectedStatus": 201,
+      "actualStatus": 201
+    },
+    {
+      "name": "case-b: created state includes a revision and synthetic documents",
+      "passed": true
+    },
+    {
+      "name": "Owner can reload private state",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Reload preserves saved investigation and revision",
+      "passed": true
+    },
+    {
+      "name": "Owner can list saved investigations",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Account A list includes only its own case",
+      "passed": true
+    },
+    {
+      "name": "Account B list includes only its own case",
+      "passed": true
+    },
+    {
+      "name": "Another account cannot read the case",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Another account cannot update the case",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Another account cannot delete the case",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Another account cannot download fixture originals",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Unknown recalled lot is rejected",
+      "passed": true,
+      "expectedStatus": 400,
+      "actualStatus": 400
+    },
+    {
+      "name": "An absent extraction draft cannot be approved",
+      "passed": true,
+      "expectedStatus": 409,
+      "actualStatus": 409
+    },
+    {
+      "name": "Source-backed review persists",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Excluded relationship and decision history persist together",
+      "passed": true
+    },
+    {
+      "name": "Stale revision cannot overwrite a decision",
+      "passed": true,
+      "expectedStatus": 409,
+      "actualStatus": 409
+    },
+    {
+      "name": "Review survives a fresh API read",
+      "passed": true
+    },
+    {
+      "name": "Synthetic TXT upload succeeds",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Server extracts TXT from original bytes",
+      "passed": true
+    },
+    {
+      "name": "Original and extracted text hashes match actual TXT bytes",
+      "passed": true
+    },
+    {
+      "name": "TXT provenance is verified and source review is required",
+      "passed": true
+    },
+    {
+      "name": "Duplicate original bytes are rejected even with a new filename",
+      "passed": true,
+      "expectedStatus": 409,
+      "actualStatus": 409
+    },
+    {
+      "name": "Anonymous original download is rejected",
+      "passed": true,
+      "expectedStatus": 401,
+      "actualStatus": 401
+    },
+    {
+      "name": "Another account cannot download uploaded originals",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Owner can retrieve uploaded original",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Downloaded original bytes are unchanged",
+      "passed": true
+    },
+    {
+      "name": "Private original is not cacheable",
+      "passed": true
+    },
+    {
+      "name": "Synthetic PDF upload succeeds",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "PDF client text remains unverified with separate hashes",
+      "passed": true
+    },
+    {
+      "name": "Unverified PDF cannot authorize a review decision",
+      "passed": true,
+      "expectedStatus": 400,
+      "actualStatus": 400
+    },
+    {
+      "name": "Verification with a stale text hash is rejected",
+      "passed": true,
+      "expectedStatus": 409,
+      "actualStatus": 409
+    },
+    {
+      "name": "Reviewer can attest current PDF text hash",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "PDF verification is persisted without clearing source review",
+      "passed": true
+    },
+    {
+      "name": "Mismatched draft remains rejected after PDF verification",
+      "passed": true,
+      "expectedStatus": 409,
+      "actualStatus": 409
+    },
+    {
+      "name": "Preliminary export audit can be recorded",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Export audit retains source freshness and preliminary status",
+      "passed": true
+    },
+    {
+      "name": "Expired extraction lock permits a normal deployed update",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Normal deployed update clears expired lock metadata",
+      "passed": true
+    },
+    {
+      "name": "Owner can delete its case despite an expired extraction lock",
+      "passed": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    },
+    {
+      "name": "Deleted case is inaccessible",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Deleted case originals are inaccessible",
+      "passed": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    {
+      "name": "Deleted case disappears from its owner list",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "kind": "investigation",
+      "label": "case-a",
+      "passed": true
+    },
+    {
+      "kind": "investigation",
+      "label": "case-b",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "kind": "firebase-account",
+      "label": "account-a",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "kind": "firebase-account",
+      "label": "account-b",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "kind": "storage-prefix",
+      "label": "case-a",
+      "passed": true,
+      "remainingObjects": 0,
+      "status": 200
+    },
+    {
+      "kind": "storage-prefix",
+      "label": "case-b",
+      "passed": true,
+      "remainingObjects": 0,
+      "status": 200
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "These requests exercise deployed APIs and real disposable Firebase accounts, not browser UI or Google popup sign-in.",
+    "No live model calls are made; this suite does not establish NVIDIA/Nebius extraction quality."
+  ],
+  "counts": {
+    "passed": 58,
+    "failed": 0
+  }
+}

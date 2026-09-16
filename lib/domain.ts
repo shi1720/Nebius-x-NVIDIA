@@ -125,6 +125,8 @@ export type Investigation = {
   decisions: ReviewDecision[];
   draft: ExtractionDraft | null;
   isSample: boolean;
+  /** New sources must be reviewed against the approved trace before it is finalizable. */
+  needsSourceReview?: boolean;
 };
 export const emptyDataset: Dataset = { lots: [], links: [], shipments: [] };
 export const normalizeQuote = (s: string) => s.replace(/\s+/g, " ").trim();
@@ -295,6 +297,7 @@ export function trace(
   data: Dataset,
   roots: string[],
   docs: SourceDocument[] = [],
+  needsSourceReview = false,
 ) {
   const statuses: Record<string, Status> = Object.fromEntries(
     data.lots.map((l) => [l.id, "outside"]),
@@ -360,6 +363,13 @@ export function trace(
       .filter((s) => s.status === status)
       .reduce((a, s) => a + s.quantity, 0);
   const issues = docs.length ? validateDataset(data, docs) : [];
+  if (needsSourceReview)
+    issues.push({
+      id: "sources-awaiting-review",
+      severity: "warning",
+      message:
+        "New evidence has not been incorporated into the approved trace. Run extraction and import the reviewed records before treating this scope as reviewed.",
+    });
   for (const root of roots)
     if (!(root in statuses))
       issues.push({
@@ -449,6 +459,15 @@ export function trace(
       data.links.every((l) => l.certainty === "confirmed") &&
       unknown.length === 0,
   };
+}
+/** Use the investigation-aware trace for user-facing status and exports. */
+export function traceInvestigation(inv: Investigation) {
+  return trace(
+    inv.dataset,
+    inv.recalledLotIds,
+    inv.documents,
+    inv.needsSourceReview === true,
+  );
 }
 export function resolveLink(
   inv: Investigation,

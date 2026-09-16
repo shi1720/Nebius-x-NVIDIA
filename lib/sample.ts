@@ -4,7 +4,7 @@ const sources = [
   {
     id: "supplier-alert",
     name: "01_supplier_alert.txt",
-    text: "SYNTHETIC RECALL DRILL — NOT A REAL RECALL\nValley Nut Co. | Supplier alert | 16 September 2026\nProduct: Peanut butter. Lot: PB-0901-A.\nPotential Salmonella contamination. Place all product made with this lot on hold and trace customer shipments.\nLot PB-0901-B is not listed in this supplier notice. This does not establish its safety.",
+    text: "SYNTHETIC RECALL DRILL - NOT A REAL RECALL\nValley Nut Co. | Supplier alert | 16 September 2026\nProduct: Peanut butter. Lot: PB-0901-A.\nPotential Salmonella contamination. Place all product made with this lot on hold and trace customer shipments.\nLot PB-0901-B is not listed in this supplier notice. This does not establish its safety.",
   },
   {
     id: "receiving",

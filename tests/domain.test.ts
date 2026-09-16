@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { sampleInvestigation } from "../lib/sample";
 import {
   trace,
+  traceInvestigation,
   validateDataset,
   resolveLink,
   datasetSchema,
@@ -11,6 +12,81 @@ import {
 } from "../lib/domain";
 import { shipmentCsv, packetHtml, csvCell, customerDraft } from "../lib/export";
 const seed = sampleInvestigation;
+function reviewedSample() {
+  const excluded = resolveLink(
+    seed(),
+    "USE-003",
+    "excluded",
+    { documentId: "correction", quote: "No PB-0901-A was used in this batch." },
+    "The signed clarification excludes the recalled lot.",
+    "Quality reviewer",
+  );
+  return resolveLink(
+    excluded,
+    "USE-004",
+    "confirmed",
+    {
+      documentId: "correction",
+      quote: "10 kg of PB-0901-B was consumed in COO-0904.",
+    },
+    "The signed clarification identifies the alternate lot.",
+    "Quality reviewer",
+  );
+}
+test("new sources prevent finalization without changing approved quantities", () => {
+  const reviewed = reviewedSample();
+  const before = traceInvestigation(reviewed);
+  assert.equal(before.canFinalize, true);
+  const updated = {
+    ...reviewed,
+    needsSourceReview: true,
+    documents: [
+      ...reviewed.documents,
+      {
+        id: "late-shipment",
+        name: "late-shipment.txt",
+        text: "Additional shipment: OAT-0902, 10 units to Orchard Shop.",
+        sha256: "",
+        uploadedAt: new Date().toISOString(),
+        textVerified: true,
+      },
+    ],
+  };
+  const after = traceInvestigation(updated);
+  assert.equal(after.canFinalize, false);
+  assert.ok(
+    after.issues.some((issue) => issue.id === "sources-awaiting-review"),
+  );
+  assert.equal(after.confirmedUnits, before.confirmedUnits);
+  assert.equal(after.shippedUnits, before.shippedUnits);
+  assert.match(packetHtml(updated), /PRELIMINARY · OPEN QUESTIONS REMAIN/);
+  assert.doesNotMatch(packetHtml(updated), /RECORDED SCOPE REVIEWED/);
+  assert.match(shipmentCsv(updated), /new evidence is awaiting review/);
+  assert.match(
+    customerDraft(updated, "Orchard Shop"),
+    /NEW EVIDENCE AWAITS REVIEW/,
+  );
+  assert.equal(
+    traceInvestigation({ ...updated, needsSourceReview: false }).canFinalize,
+    true,
+  );
+});
+test("relationship review does not clear pending source review", () => {
+  const s = { ...seed(), needsSourceReview: true };
+  const next = resolveLink(
+    s,
+    "USE-003",
+    "excluded",
+    { documentId: "correction", quote: "No PB-0901-A was used in this batch." },
+    "The signed clarification excludes the recalled lot.",
+    "Quality reviewer",
+  );
+  assert.equal(next.needsSourceReview, true);
+  assert.equal(traceInvestigation(next).canFinalize, false);
+});
+test("customer draft template contains no em dashes", () => {
+  assert.doesNotMatch(customerDraft(seed(), "Orchard Shop"), /\u2014/);
+});
 test("synthetic drill has source-valid, physically consistent records", () => {
   const s = seed();
   assert.deepEqual(validateDataset(s.dataset, s.documents), []);

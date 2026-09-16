@@ -15,7 +15,7 @@ import {
   evidenceSchema,
   validateDataset,
   datasetSchema,
-  trace,
+  traceInvestigation,
 } from "@/lib/domain";
 const schema = z.discriminatedUnion("action", [
   z.object({
@@ -99,6 +99,7 @@ export async function POST(
         {
           ...inv,
           dataset: body.dataset,
+          needsSourceReview: false,
           draft: null,
           recalledLotIds: inv.recalledLotIds.filter((id) =>
             body.dataset.lots.some((l) => l.id === id),
@@ -153,7 +154,7 @@ export async function POST(
       );
     }
     if (body.action === "export") {
-      const scope = trace(inv.dataset, inv.recalledLotIds, inv.documents);
+      const scope = traceInvestigation(inv);
       next = addAudit(
         inv,
         user.displayName,

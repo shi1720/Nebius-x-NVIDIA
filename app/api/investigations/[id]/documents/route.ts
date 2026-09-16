@@ -5,7 +5,9 @@ import {
   apiError,
   json,
   sameOrigin,
-  bindings,
+  putOriginal,
+  deleteOriginal,
+  getOriginal,
   boundedBody,
   ApiError,
 } from "@/lib/server";
@@ -72,9 +74,7 @@ export async function POST(
       );
     const id = "doc-" + crypto.randomUUID(),
       key = `${inv.id}/${id}`;
-    await bindings().BUCKET.put(key, bytes, {
-      httpMetadata: { contentType: "application/octet-stream" },
-    });
+    await putOriginal(key, bytes);
     uploadedKey = key;
     const name = file.name.replace(/[^\w. ()-]/g, "_").slice(0, 180);
     const textHash = Array.from(
@@ -99,7 +99,12 @@ export async function POST(
       mimeType: file.type,
     };
     const next = addAudit(
-      { ...inv, documents: [...inv.documents, doc], draft: null },
+      {
+        ...inv,
+        documents: [...inv.documents, doc],
+        draft: null,
+        needsSourceReview: true,
+      },
       user.displayName,
       "Evidence uploaded",
       `${name}; SHA-256 ${hash}. Any previous extraction draft was invalidated.`,
@@ -108,10 +113,7 @@ export async function POST(
     uploadedKey = undefined;
     return json({ investigation: next });
   } catch (e) {
-    if (uploadedKey)
-      await bindings()
-        .BUCKET.delete(uploadedKey)
-        .catch(() => {});
+    if (uploadedKey) await deleteOriginal(uploadedKey).catch(() => {});
     return apiError(e);
   }
 }
@@ -135,9 +137,9 @@ export async function GET(
           "X-Content-Type-Options": "nosniff",
         },
       });
-    const object = await bindings().BUCKET.get(doc.storageKey);
+    const object = await getOriginal(doc.storageKey);
     if (!object) throw new ApiError(404, "Original file not found.");
-    return new Response(object.body, {
+    return new Response(object, {
       headers: {
         "Content-Type": "application/octet-stream",
         "Content-Disposition": `attachment; filename="${doc.name}"`,

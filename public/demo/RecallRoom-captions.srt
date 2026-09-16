@@ -1,0 +1,203 @@
+1
+00:00:00,000 --> 00:00:02,240
+A supplier recalls one lot of peanut
+
+2
+00:00:02,240 --> 00:00:03,000
+butter.
+
+3
+00:00:03,000 --> 00:00:04,840
+You run a small food business.
+
+4
+00:00:04,840 --> 00:00:07,040
+Your receiving spreadsheet, batch sheets, and shipment
+
+5
+00:00:07,040 --> 00:00:09,820
+export each hold part of the answer.
+
+6
+00:00:09,820 --> 00:00:11,380
+Which products did it reach?
+
+7
+00:00:11,380 --> 00:00:12,420
+Who received them?
+
+8
+00:00:12,420 --> 00:00:14,460
+And what are you still missing?
+
+9
+00:00:14,460 --> 00:00:18,520
+This is RecallRoom, created by Shivam Gupta.
+
+10
+00:00:18,520 --> 00:00:21,280
+It brings the evidence into one investigation.
+
+11
+00:00:21,280 --> 00:00:24,860
+Every record in this demonstration is fictional.
+
+12
+00:00:24,860 --> 00:00:27,520
+Start with the recalled ingredient.
+
+13
+00:00:27,520 --> 00:00:29,920
+Follow its path through production to customers.
+
+14
+00:00:29,920 --> 00:00:33,960
+480 oat bars and 320 energy bites.
+
+15
+00:00:33,960 --> 00:00:35,920
+800 affected finished units.
+
+16
+00:00:35,920 --> 00:00:38,240
+600 have shipped to three customers.
+
+17
+00:00:38,240 --> 00:00:40,820
+200 remain on site.
+
+18
+00:00:40,820 --> 00:00:42,520
+Click a shipment, and you can inspect
+
+19
+00:00:42,520 --> 00:00:44,660
+the source behind it.
+
+20
+00:00:44,660 --> 00:00:47,740
+But, this cookie batch only says PB
+
+21
+00:00:47,740 --> 00:00:50,620
+September That could refer to a different
+
+22
+00:00:50,620 --> 00:00:52,400
+ingredient lot.
+
+23
+00:00:52,400 --> 00:00:55,200
+RecallRoom keeps 240 cookies at a separate
+
+24
+00:00:55,200 --> 00:01:00,380
+precautionary hold, including 120 that have shipped.
+
+25
+00:01:00,380 --> 00:01:03,180
+Now open the supporting clarification.
+
+26
+00:01:03,180 --> 00:01:06,060
+It identifies Lot B and explicitly says
+
+27
+00:01:06,060 --> 00:01:08,080
+no Lot A was used.
+
+28
+00:01:08,080 --> 00:01:10,780
+A reviewer excludes the Lot A relationship,
+
+29
+00:01:10,780 --> 00:01:14,460
+then confirms Lot B using that evidence.
+
+30
+00:01:14,460 --> 00:01:23,700
+The cookie hold leaves this recall path.
+
+31
+00:01:23,700 --> 00:01:27,480
+The recorded balance now shows 50 kilograms
+
+32
+00:01:27,480 --> 00:01:30,580
+of the recalled ingredient remaining.
+
+33
+00:01:30,580 --> 00:01:33,300
+The extraction adapter is built for NVIDIA
+
+34
+00:01:33,300 --> 00:01:36,660
+Nemotron on Nebius Token Factory.
+
+35
+00:01:36,660 --> 00:01:39,600
+Live provider verification is still pending.
+
+36
+00:01:39,600 --> 00:01:43,220
+This sample uses clearly labeled synthetic records.
+
+37
+00:01:43,220 --> 00:01:46,160
+In the workflow, model proposals require validation
+
+38
+00:01:46,160 --> 00:01:48,520
+and human approval before import.
+
+39
+00:01:48,520 --> 00:01:52,960
+Finally, export the investigation packet.
+
+40
+00:01:52,960 --> 00:01:56,000
+It includes the shipment register, evidence, review
+
+41
+00:01:56,000 --> 00:01:59,360
+decisions, and customer specific message drafts.
+
+42
+00:01:59,360 --> 00:02:03,020
+A quality manager controls what happens next.
+
+43
+00:02:03,020 --> 00:02:05,940
+RecallRoom is designed for smaller teams using
+
+44
+00:02:05,940 --> 00:02:08,420
+the records they already have.
+
+45
+00:02:08,420 --> 00:02:11,060
+Recurring drills can expose missing evidence before
+
+46
+00:02:11,060 --> 00:02:12,640
+an emergency.
+
+47
+00:02:12,640 --> 00:02:14,700
+Our next step is to validate that
+
+48
+00:02:14,700 --> 00:02:17,700
+workflow with quality professionals.
+
+49
+00:02:17,700 --> 00:02:20,740
+A recall starts with one lot.
+
+50
+00:02:20,740 --> 00:02:22,440
+RecallRoom helps you see where it ends
+
+51
+00:02:22,440 --> 00:02:25,056
+and what still needs an answer.

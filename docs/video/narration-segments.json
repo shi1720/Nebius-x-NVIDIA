@@ -1,0 +1,13 @@
+[
+  "A supplier recalls one lot of peanut butter. You run a small food business. Your receiving spreadsheet, batch sheets, and shipment export each hold part of the answer. Which products did it reach? Who received them? And what are you still missing?",
+  "This is RecallRoom, created by Shivam Gupta. It brings the evidence into one investigation. Every record in this demonstration is fictional.",
+  "Start with the recalled ingredient. Follow its path through production to customers. Four hundred eighty oat bars and three hundred twenty energy bites: eight hundred affected finished units. Six hundred have shipped to three customers. Two hundred remain on site.",
+  "Click a shipment, and you can inspect the source behind it.",
+  "But this cookie batch only says P B September. That could refer to a different ingredient lot. RecallRoom keeps two hundred forty cookies on a separate precautionary hold, including one hundred twenty that have shipped. The uncertainty stays visible.",
+  "Now open the supporting clarification. It identifies lot B and explicitly says no lot A was used. A reviewer excludes the lot A relationship, then confirms lot B using that evidence.",
+  "The cookie hold leaves this recall path. The original relationship, exact quote, and review decision remain in the history. The recorded balance now shows fifty kilograms of the recalled ingredient remaining.",
+  "The extraction adapter is built for NVIDIA Nemotron on Nebius Token Factory. Live provider verification is still pending. This sample uses clearly labeled synthetic records. In the workflow, model proposals require validation and human approval before import.",
+  "Finally, export the investigation packet. It includes the shipment register, evidence, review decisions, and customer-specific message drafts. A quality manager controls what happens next.",
+  "RecallRoom is designed for smaller teams using the records they already have. Recurring drills can expose missing evidence before an emergency. Our next step is to validate that workflow with quality professionals.",
+  "A recall starts with one lot. RecallRoom helps you see where it ends, and what still needs an answer."
+]

@@ -1,7 +1,6 @@
 import {
   identity,
   loadInvestigation,
-  saveInvestigation,
   apiError,
   json,
   sameOrigin,
@@ -9,10 +8,10 @@ import {
   bindings,
   reserveInference,
   finishInference,
+  readInference,
   ApiError,
 } from "@/lib/server";
-import { extractDocuments, modelErrorMessage } from "@/lib/nebius";
-import { addAudit } from "@/lib/domain";
+import { enqueueInference } from "@/lib/inference-queue";
 export async function POST(
   request: Request,
   ctx: { params: Promise<{ id: string }> },
@@ -23,45 +22,56 @@ export async function POST(
       payload = await readJson(request, 1000),
       inv = await loadInvestigation((await ctx.params).id, user.userId);
     if (payload.revision !== inv.revision)
-      throw new ApiError(
-        409,
-        "Reload the investigation before running extraction.",
-      );
+      throw new ApiError(409, "Reload before running extraction.");
     if (!inv.documents.length)
       throw new ApiError(
         400,
         "Upload source documents before running extraction.",
       );
-    const e = bindings();
-    if (!e.NEBIUS_API_KEY)
+    if (!bindings().NEBIUS_API_KEY)
       throw new ApiError(
         503,
-        modelErrorMessage(new Error("NEBIUS_NOT_CONFIGURED")),
+        "Live NVIDIA extraction is not configured yet. The sample drill remains available.",
       );
     const jobId = await reserveInference(user.userId, inv);
-    let draft;
     try {
-      draft = await extractDocuments(inv.documents, {
-        apiKey: e.NEBIUS_API_KEY,
-        model: e.NEBIUS_MODEL,
-        baseUrl: e.NEBIUS_BASE_URL,
-      });
-    } catch (error) {
-      await finishInference(jobId, { error: modelErrorMessage(error) }, false);
-      throw new ApiError(502, modelErrorMessage(error));
+      await enqueueInference(jobId);
+    } catch {
+      await finishInference(
+        jobId,
+        undefined,
+        "The extraction could not be queued. Please retry.",
+      );
+      throw new ApiError(
+        503,
+        "The extraction could not be queued. Please retry.",
+      );
     }
-    const next = addAudit(
-      { ...inv, draft, runs: [...inv.runs, draft.run] },
-      user.displayName,
-      "Live extraction completed",
-      `${draft.run.model} via Nebius. ${draft.issues.length} validation issues. Awaiting human review; the approved graph is unchanged.`,
-    );
-    try {
-      await saveInvestigation(next, user.userId, inv.revision, jobId);
-    } finally {
-      await finishInference(jobId, draft, true);
-    }
-    return json({ investigation: next });
+    return json({ jobId, status: "queued" }, 202);
+  } catch (e) {
+    return apiError(e);
+  }
+}
+export async function GET(
+  request: Request,
+  ctx: { params: Promise<{ id: string }> },
+) {
+  try {
+    const user = await identity(),
+      id = (await ctx.params).id,
+      jobId = new URL(request.url).searchParams.get("job");
+    if (!jobId) throw new ApiError(400, "Provide an extraction id.");
+    const job = await readInference(jobId, user.userId);
+    if (job.investigationId !== id)
+      throw new ApiError(404, "Extraction not found.");
+    return json({
+      status: job.status,
+      error: job.error,
+      investigation:
+        job.status === "completed"
+          ? await loadInvestigation(id, user.userId)
+          : undefined,
+    });
   } catch (e) {
     return apiError(e);
   }

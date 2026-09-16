@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-16T13:22:24.633Z",
+  "mode": "operator-firestore-production-functions",
+  "projectId": "recallroom-ai-2026",
+  "checks": [
+    {
+      "name": "Concurrent user quota allows exactly two reservations",
+      "passed": true,
+      "count": 2
+    },
+    {
+      "name": "Remaining concurrent user reservations are rejected with 429",
+      "passed": true
+    },
+    {
+      "name": "Denied reservations do not consume the user budget",
+      "passed": true
+    },
+    {
+      "name": "Concurrent extraction of one case reserves one job",
+      "passed": true
+    },
+    {
+      "name": "Concurrent duplicate is rejected with a lock conflict",
+      "passed": true
+    },
+    {
+      "name": "Concurrent global boundary allows one final reservation",
+      "passed": true
+    },
+    {
+      "name": "Global budget rejection is explicit 429",
+      "passed": true
+    },
+    {
+      "name": "Expired extraction lock does not block normal updates",
+      "passed": true
+    },
+    {
+      "name": "Normal update clears expired activeJob and lockUntil",
+      "passed": true
+    },
+    {
+      "name": "Expired extraction lock does not block deletion",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Disposable case removed",
+      "passed": true
+    },
+    {
+      "name": "Only successful test reservations subtracted from shared daily counter",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Quota limits are lowered only in this test process to reach boundaries with at most five reservations; deployed service configuration is unchanged.",
+    "No inference task is enqueued and no model request is made."
+  ]
+}
