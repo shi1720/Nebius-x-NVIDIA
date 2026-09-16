@@ -3,7 +3,7 @@
 **Creator:** Shivam Gupta  
 **Narration:** Neutral synthetic voice generated with OpenAI TTS, disclosed in the video description. It does not imitate Shivam.  
 **Source of truth:** `docs/video/narration-segments.json`  
-**Length:** 327 words; rendered duration is 145.06 seconds, below the three-minute submission limit. YouTube publication is pending.  
+**Length:** 327 words; rendered duration is 145.06 seconds, below the three-minute submission limit. Published on YouTube: https://www.youtube.com/watch?v=d7_Y3J3-84E.  
 **Video URL:** Pending public upload.
 
 The narration below matches the current generated segments verbatim. It explicitly states that live NVIDIA inference is pending. Do not replace this qualification or show a completed model trace unless a real Nebius run has been verified and recorded.

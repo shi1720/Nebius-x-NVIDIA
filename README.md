@@ -4,7 +4,7 @@
 
 RecallRoom connects receiving logs, batch sheets and shipment records into an evidence-backed recall investigation. It is built for small food manufacturers and co-packers working with the records they already have.
 
-[Open the Firebase demo](https://recallroom.web.app) · [Testing instructions](docs/submission/devpost-fields.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
+[Open the Firebase demo](https://recallroom.web.app) · [Watch the demo](https://www.youtube.com/watch?v=d7_Y3J3-84E) · [Testing instructions](docs/submission/devpost-fields.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
 
 Created by **Shivam Gupta** for the **Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents**, with AI-assisted implementation, research and testing. Public code is licensed under MIT.
 

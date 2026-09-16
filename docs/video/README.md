@@ -11,4 +11,4 @@ Live NVIDIA inference on Nebius remains unverified. The narration and descriptio
 
 The source narration is in `narration-segments.json`. `scripts/generate-narration.py`, `scripts/caption-video.py`, and `scripts/render-demo.py` create audio, align captions, and compose the recording. Local working media is kept in ignored `outputs/video`. The finished MP4 and SRT are versioned in `public/demo`.
 
-YouTube publication is awaiting action-time confirmation of the upload screen's Terms of Service acknowledgement. The requested title and description are in `docs/submission/youtube.md`.
+The video is public at https://www.youtube.com/watch?v=d7_Y3J3-84E. Its English subtitle track, AI-use disclosure, platform checks and signed-out 1080p playback are verified. The published title and description are in `docs/submission/youtube.md`. Live Nebius inference is still unverified.

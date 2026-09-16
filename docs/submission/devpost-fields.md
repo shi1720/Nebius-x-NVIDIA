@@ -12,6 +12,7 @@ A recall starts with one lot. Know where it ends. RecallRoom connects food-produ
 
 - Working application: https://recallroom.web.app
 - Public repository: https://github.com/shi1720/Nebius-x-NVIDIA
+- Public video: https://www.youtube.com/watch?v=d7_Y3J3-84E
 - Track: Best Apps and Agents
 - Creator: Shivam Gupta
 - License: MIT

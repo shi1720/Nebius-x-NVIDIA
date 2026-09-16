@@ -1,6 +1,6 @@
 # YouTube publication fields
 
-**Current status:** The captioned 2:25 product walkthrough is rendered and inspected. It is available at https://recallroom.web.app/demo.html. YouTube upload awaits action-time confirmation of its Terms of Service acknowledgement. Live Nebius inference remains unverified.
+**Current status:** The captioned 2:25 product walkthrough is public on YouTube at https://www.youtube.com/watch?v=d7_Y3J3-84E. Copyright and Community Guidelines checks completed with no issues. The upload includes the branded thumbnail, an English subtitle track and an AI-use disclosure. Signed-out playback was verified. A downloadable copy remains at https://recallroom.web.app/demo.html. Live Nebius inference remains unverified.
 
 ## Title
 
