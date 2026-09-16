@@ -5,7 +5,7 @@
 **Demo:** https://recallroom.web.app  
 **Repository:** https://github.com/shi1720/Nebius-x-NVIDIA
 
-**Publication status:** The story below reflects the implemented Firebase application. Live NVIDIA inference remains unverified, and final hosted acceptance is still in progress. Keep those qualifications until recorded evidence supports changing them. Do not submit a pending integration as a verified hackathon requirement.
+**Verification:** The Firebase application and real NVIDIA Nemotron 3 Super workflow passed a hosted test from six source uploads through reviewed import, reload, evidence-backed decisions and export. See the [sanitized hosted report](https://github.com/shi1720/Nebius-x-NVIDIA/blob/main/docs/evaluation/hosted-nebius.json). This fictional scenario does not establish real-world recall accuracy.
 
 ## Inspiration
 
@@ -31,7 +31,9 @@ The exportable response packet brings together the shipment register, source cit
 
 RecallRoom uses React and TypeScript, served as a static application on Firebase Hosting at [recallroom.web.app](https://recallroom.web.app). Firebase Authentication supports Google and email/password sign-in. A Cloud Run API verifies identity and controls account-owned Firestore investigations and private Google Cloud Storage originals. Cloud Tasks runs authenticated background extraction jobs so a long model request does not block the web request.
 
-We built a structured-extraction adapter for **NVIDIA Nemotron through Nebius Token Factory**. It requests evidence-linked JSON, validates the returned structure, and records provider details, usage, and latency when a request succeeds. **Live Nebius execution is still awaiting verification; the public synthetic drill does not impersonate a model response.**
+**NVIDIA Nemotron 3 Super, served through Nebius Token Factory**, turns source records into a structured proposal with exact quotations. Our verified hosted run used `nvidia/nemotron-3-super-120b-a12b` and extracted six lots, five relationships and six shipments with all expected scope totals. Inference took 17.562 seconds, used 2,600 input and 4,203 output tokens, and had an estimated cost of $0.00456. We inspected the proposal, imported the reviewed records, reloaded the case, resolved the cookie ambiguity with two cited decisions, and verified the downloaded packet. Sanitized traces and failed development attempts remain in the repository. These checks cover one fictional scenario, not real-world accuracy or typical latency.
+
+The final adapter uses a schema-guided prompt and strict server validation. It sends an ordinary chat request without provider response-format constraints, then parses JSON and validates the proposal against our domain schema.
 
 The model proposes records. Deterministic application code validates citations, lot references, units, quantities, and graph structure, then calculates the recall scope. A human reviews the proposal before import and supplies evidence for relationship changes. This separation lets us test the calculations independently and inspect the reasoning behind a result.
 
@@ -40,6 +42,8 @@ The code is public under the MIT license. The repository includes setup instruct
 ## Challenges we ran into
 
 The hardest challenge was representing uncertainty without making it disappear in a polished answer. An ambiguous lot label must remain visible through the graph, shipment totals, ingredient balances, and exported packet.
+
+Live testing exposed a more subtle failure: a well-formed proposal could still omit nearly all the source records. We kept that incomplete hosted result out of the investigation. We clarified how the prompt should handle absent optional fields and added CSV row-coverage checks that block incomplete import. A repeat evaluation using upload-style document IDs and PDF text then passed. Row coverage detects missing supported CSV records, but it does not prove semantic correctness or that every possible lot relationship is present. A reviewer still checks ambiguous inputs against the originals. Further trials revealed incomplete arrays, duplicate records and truncated output while we aligned the prompt with decoder constraints. We retained those failures and moved the final adapter to schema-guided prompting with strict application validation. This made the failures as useful as the successful calls.
 
 Quantity accounting needed equal care. Kilograms of an ingredient are different from units of finished goods. Repacking can create multiple graph nodes for the same physical output. Our calculations keep these quantities separate and avoid counting intermediate production twice.
 
@@ -51,7 +55,7 @@ We built a complete investigation workflow around a specific problem: inspect re
 
 The most meaningful moment in the demo is the cookie batch. The scope changes only after a reviewer provides a supporting record, and the excluded relationship stays inspectable afterward. That makes the result easier to explain to the next person who opens the case.
 
-Our current automated suite passes 37 tests covering the domain logic, evidence checks, exports, and mocked provider contracts. The hosted Firebase API passed 60 checks, and 10 operator checks verified concurrent quotas and expired-lock behavior against the production Firestore functions. These results cover the application boundary; live NVIDIA inference still needs verification. The graph suite also checks its results against an independent calculation over 150 generated graphs. These are engineering checks, not claims about real-world recall accuracy.
+Our current automated suite passes 41 tests covering the domain logic, evidence checks, exports, and mocked provider contracts. The hosted Firebase API passed 60 checks, and 10 operator checks verified concurrent quotas and expired-lock behavior against the production Firestore functions. The separate hosted NVIDIA workflow matched the supplied fixture answer key and preserved the provider trace, source hashes and review decisions in exported files. The graph suite also checks its results against an independent calculation over 150 generated graphs. These are engineering checks, not claims about real-world recall accuracy.
 
 ## What we learned
 
@@ -61,7 +65,7 @@ We also learned to evaluate commercial viability beyond token cost. Onboarding, 
 
 ## What's next for RecallRoom
 
-First, complete and record real NVIDIA inference on Nebius and finish acceptance of the deployed private workflow. Then work with quality professionals to evaluate permitted drill packets against human-authored answer keys. We want to measure incorrect links, missed exposure, unsupported exclusions, and review time before expanding the scope.
+Next, work with quality professionals to evaluate permitted drill packets against human-authored answer keys. We want to measure incorrect links, missed exposure, unsupported exclusions, and review time before expanding the scope.
 
 Next would come better document adapters, consultant workflows, and integrations guided by those evaluations. The commercial question is whether teams will return for the next drill and pay for a result they can inspect.
 

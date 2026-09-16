@@ -1,6 +1,6 @@
 {
   "date": "2026-09-16",
-  "videoUrl": "https://www.youtube.com/watch?v=d7_Y3J3-84E",
+  "videoUrl": "https://www.youtube.com/watch?v=J0Gy2FWsm-M",
   "visibility": "public",
   "youtubeChecks": {
     "copyright": "No issues found",
@@ -10,21 +10,23 @@
   "englishSubtitleTrackUploaded": true,
   "aiUseDisclosed": true,
   "signedOutPlayback": {
-    "observedTimeSeconds": 133.563036,
-    "durationSeconds": 145.121,
+    "observedTimeSeconds": 150.281,
+    "durationSeconds": 150.281,
     "width": 1920,
     "height": 1080,
     "muted": false,
-    "paused": false,
+    "paused": true,
     "readyState": 4,
-    "decodingError": null
+    "decodingError": null,
+    "playedToEnd": true
   },
   "devpostVideoFieldSaved": true,
-  "devpostStepsComplete": "3/5",
+  "devpostStepsComplete": "4/5",
   "devpostSubmitted": false,
   "limitations": [
     "Recording uses fictional source records and actual captured application screens.",
-    "Live NVIDIA inference on Nebius remains unverified and is disclosed in the video.",
+    "One verified hosted model scenario is not a real-world accuracy benchmark.",
     "YouTube platform checks do not establish hackathon eligibility."
-  ]
+  ],
+  "previousVideoUrl": "https://www.youtube.com/watch?v=d7_Y3J3-84E"
 }

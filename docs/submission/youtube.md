@@ -1,6 +1,6 @@
 # YouTube publication fields
 
-**Current status:** The captioned 2:25 product walkthrough is public on YouTube at https://www.youtube.com/watch?v=d7_Y3J3-84E. Copyright and Community Guidelines checks completed with no issues. The upload includes the branded thumbnail, an English subtitle track and an AI-use disclosure. Signed-out playback was verified. A downloadable copy remains at https://recallroom.web.app/demo.html. Live Nebius inference remains unverified.
+**Current status:** The final 2:30 video is public at https://www.youtube.com/watch?v=J0Gy2FWsm-M. It includes verified live NVIDIA inference from the Firebase application. Signed-out playback reached the end at 1080p with audio, no decoding error, and an English subtitle track available.
 
 ## Title
 
@@ -15,26 +15,17 @@ RecallRoom is an evidence-backed investigation workspace for small food manufact
 Try the app: https://recallroom.web.app
 Open-source code: https://github.com/shi1720/Nebius-x-NVIDIA
 
-Created by Shivam Gupta for the Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents track, with AI-assisted implementation, research, and testing. Narration uses a disclosed neutral synthetic voice generated with OpenAI TTS; it does not imitate Shivam.
+NVIDIA Nemotron 3 Super, served through Nebius Token Factory, proposes records with exact source quotes. Application code validates the proposal and calculates recall scope. A person reviews records before import and supports corrections with evidence. This recording includes a real provider run from the hosted application: six lots, five relationships and six shipments. The run took 17.562 seconds and used 2,600 input and 4,203 output tokens. Estimated inference cost was $0.00456, excluding app infrastructure and human review. This is one fictional scenario, not an accuracy benchmark.
 
-NVIDIA Nemotron on Nebius Token Factory is the intended extraction provider. Live provider execution has not yet been verified in this recording. The synthetic sample is explicitly labeled and does not represent a real incident or customer result.
+Created by Shivam Gupta for the Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents track, with AI-assisted implementation, research and testing. Narration uses a disclosed neutral synthetic voice generated with OpenAI TTS; it does not imitate Shivam.
 
-RecallRoom supports evidence review and preparation. It does not certify food safety, automatically release inventory, or send customer messages.
+All businesses, documents and incident details in the demonstration are fictional. RecallRoom supports evidence review and preparation. It does not certify food safety, automatically release inventory, or send customer messages.
 
 #Nebius #NVIDIA #Nemotron #AIHackathon #FoodTraceability
 
-## Verified-live replacement for YouTube description
-
-Replace only the pending provider paragraph after the recorded video actually includes a successful live run:
-
-> NVIDIA Nemotron, served through Nebius Token Factory, proposes evidence-linked records. Application code validates the proposal and computes the recall scope. Human reviewers approve imported records and evidence-backed corrections. This recording includes a real provider run on synthetic source documents. All businesses, documents, and incident details in the demonstration are fictional.
-
-
 ## Upload checks
 
-- Use actual working app footage from the final Firebase deployment.
-- Keep the fictional-data label visible. Do not invent a live model trace or turn a failed request into an apparent success.
-- Verify spoken audio and readable captions throughout. Match the subtitle file to the generated narration.
-- Keep the complete uploaded video at or below three minutes.
-- Confirm public visibility and watch the uploaded result before using its URL in Devpost.
-- Replace the pending provider paragraph only when the video includes verified NVIDIA inference on Nebius.
+- Final file: `public/demo/RecallRoom-demo.mp4`, 150.25 seconds, 1920 by 1080.
+- Matching English subtitles: `public/demo/RecallRoom-captions.srt`.
+- Use the branded thumbnail and disclose the neutral synthetic narration.
+- Confirm public visibility and signed-out playback before saving the URL in Devpost.

@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-16T15:54:10.259Z",
+  "mode": "live",
+  "fixture": "sunward-hosted-text-uuid-v1",
+  "inputMethod": "Saved original text viewed in hosted UI; new UUID IDs; sha256 hashes text, not original file bytes",
+  "files": [
+    {
+      "id": "0c14e603-703c-485a-8c4a-baa97e7d189c",
+      "name": "01_supplier_alert.txt",
+      "sha256": "8290bf455145c65762b3e47fdd1aeb41303bc68825a3dc1b40efcbe628592a1f"
+    },
+    {
+      "id": "43bb98d2-e132-4fa7-a16e-d641b7f845ee",
+      "name": "02_receiving.csv",
+      "sha256": "f39bcdafc4e95d76e90e7d10ab69fbf1b00e4bc8291b67d85f40a7197428e29b"
+    },
+    {
+      "id": "d6b98f50-704c-40fb-8f78-dbb05f2f21a8",
+      "name": "03_production.csv",
+      "sha256": "867f07d37b8634c7185b19a2869924124626997d8caad040f245aaf673ffc3e1"
+    },
+    {
+      "id": "187dd1ca-52d9-4d84-b4cc-7f63f399a391",
+      "name": "04_shipments.csv",
+      "sha256": "d7549d3a6464e8c3f810b9c9cdf8b0d02882db1b7af354bfe866756ae9e15bc7"
+    },
+    {
+      "id": "e8cb4672-719f-4d77-b11a-418175b56a29",
+      "name": "05_inventory_count.txt",
+      "sha256": "e3fc3d96e39d276798134d87ca20bc5620c0c54930ce09050d8e852a0803b111"
+    },
+    {
+      "id": "3064431f-1e5e-4813-8501-33cd585f3f15",
+      "name": "06_signed_batch_clarification.pdf",
+      "sha256": "badc44217ab1ce3eef55efe647828c88b8deaa202e95f8367fd3696fc0b409da"
+    }
+  ],
+  "run": {
+    "id": "21ead7d0-570b-4bc8-9ea8-6757a9a7419c",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.7",
+    "inputTokens": 2600,
+    "outputTokens": 5514,
+    "latencyMs": 44350,
+    "estimatedCostUsd": 0.0057426000000000005,
+    "requestId": "b436b09e2de200d436cc53fb18f2f95e",
+    "at": "2026-09-16T15:54:10.258Z"
+  },
+  "expected": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "actual": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "issues": [],
+  "passed": true,
+  "limitations": [
+    "One additional synthetic fixture is not an accuracy benchmark.",
+    "This script calls Nebius directly, not the hosted application. Input is either local sample files or source text saved from the hosted UI, as identified in inputMethod.",
+    "Clarification is evidence for later human review, not permission for automatic relationship decisions."
+  ]
+}

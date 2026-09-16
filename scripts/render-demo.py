@@ -13,7 +13,7 @@ for w in words:
  w['word']=w['word'].replace('Nemetron','Nemotron')
 font=lambda s,b=False:ImageFont.truetype('/System/Library/Fonts/Supplemental/Arial'+(' Bold' if b else '')+'.ttf',s)
 chapters=['The recall question','One evidence workspace','Follow the ingredient','Inspect the source','Keep uncertainty visible','Review the evidence','A traceable decision','NVIDIA + Nebius integration','Prepare the response','Built for smaller teams','Every lot has a story']
-shots=['00-opening','01-evidence','02-graph','03-source','04-uncertainty','05-review','06b-balance','01-evidence','08b-packet','02-graph','10-resolved']
+shots=['00-opening','07a-live-sources','02-graph','03-source','04-uncertainty','05-review','06b-balance','07a-live-sources','08b-packet','02-graph','10-resolved']
 bounds=[0]
 for d in durations: bounds.append(bounds[-1]+d)
 def stage(t): return min(10,next((i for i in range(11) if t<bounds[i+1]),10))
@@ -24,7 +24,9 @@ for i,w in enumerate(words):
  if len(g)>=7 or w['word'].endswith(('.', '?', '!')) or i==len(words)-1 or stage(w['end'])!=stage(words[i+1]['start']):
   groups.append((max(0,g[0]['start']), ' '.join(v['word'] for v in g)));g=[]
 # Keep all actual screen transitions, even during a longer caption.
-times=sorted(set([0,total]+[a for a,b in groups]+bounds))
+shot_changes=[bounds[5]+durations[5]*.54,bounds[7]+durations[7]*.20,
+              bounds[7]+durations[7]*.72,bounds[8]+durations[8]*.35]
+times=sorted(set([0,total]+[a for a,b in groups]+bounds+shot_changes))
 def caption(t):
  return next((txt for st,txt in reversed(groups) if st<=t),'')
 def draw_frame(t):
@@ -34,6 +36,10 @@ def draw_frame(t):
  d.text((1370,33),'SYNTHETIC DRILL  /  AI VOICE',font=font(19),fill='#b8ccca')
  shot=shots[k]
  if k==5 and t-bounds[k]>durations[k]*.54:shot='05b-confirm'
+ if k==7:
+  progress=(t-bounds[k])/durations[k]
+  if progress>=.72:shot='07c-live-trace'
+  elif progress>=.20:shot='07b-live-proposal'
  if k==8 and t-bounds[k]<durations[k]*.35:shot='08-export'
  src=Image.open(F/(shot+'.png')).convert('RGB');scale=min(1760/src.width,850/src.height);src=src.resize((round(src.width*scale),round(src.height*scale)),Image.Resampling.LANCZOS)
  im.paste(src,((1920-src.width)//2,88+(850-src.height)//2))

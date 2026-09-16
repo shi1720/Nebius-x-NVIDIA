@@ -3,10 +3,10 @@
 **Creator:** Shivam Gupta  
 **Narration:** Neutral synthetic voice generated with OpenAI TTS, disclosed in the video description. It does not imitate Shivam.  
 **Source of truth:** `docs/video/narration-segments.json`  
-**Length:** 327 words; rendered duration is 145.06 seconds, below the three-minute submission limit. Published on YouTube: https://www.youtube.com/watch?v=d7_Y3J3-84E.  
-**Video URL:** Pending public upload.
+**Length:** 338 words; rendered duration is 150.25 seconds, below the three-minute submission limit.  
+**Video URL:** See `docs/submission/youtube.md` for the current public upload.
 
-The narration below matches the current generated segments verbatim. It explicitly states that live NVIDIA inference is pending. Do not replace this qualification or show a completed model trace unless a real Nebius run has been verified and recorded.
+The narration below matches the generated segments verbatim. It includes actual NVIDIA Nemotron inference on Nebius Token Factory using fictional records. This is a captured product walkthrough, not a claim of measured accuracy on real recalls.
 
 ## Verbatim narration
 
@@ -38,9 +38,9 @@ Now open the supporting clarification. It identifies lot B and explicitly says n
 
 The cookie hold leaves this recall path. The original relationship, exact quote, and review decision remain in the history. The recorded balance now shows fifty kilograms of the recalled ingredient remaining.
 
-### 8. NVIDIA adapter status
+### 8. NVIDIA extraction and review
 
-The extraction adapter is built for NVIDIA Nemotron on Nebius Token Factory. Live provider verification is still pending. This sample uses clearly labeled synthetic records. In the workflow, model proposals require validation and human approval before import.
+Here is a real extraction with NVIDIA Nemotron on Nebius Token Factory. The model proposes records and exact source quotes. Application code validates the evidence and calculates the scope. A person reviews the proposal before import. The run history shows the actual provider, model, token usage, and latency.
 
 ### 9. Export packet
 
@@ -64,10 +64,8 @@ A recall starts with one lot. RecallRoom helps you see where it ends, and what s
 6. Use captions that match the segment text. Inspect readability, timing and the full uploaded audio. No unlicensed music or impersonated voice is needed.
 7. Keep the complete public video no longer than three minutes. Inspect the YouTube result and public visibility before placing its URL in Devpost.
 
-## Later verified-provider version
+## Verified-provider scene
 
-After an actual NVIDIA run on Nebius passes, regenerate the provider narration segment and recapture the matching scene. A suitable replacement is:
+The provider scene uses actual screenshots from the deployed Firebase application: sources, a completed extraction proposal, and the run history. It identifies NVIDIA Nemotron on Nebius Token Factory and shows the review boundary before importing records. The opening workflow uses the clearly labeled synthetic drill.
 
-> Here is a real extraction with NVIDIA Nemotron on Nebius Token Factory. The model proposes records and source quotes. Application code checks the evidence and calculates the scope. A person reviews the proposal before import. You can inspect the actual provider, model, usage, and latency for this request.
-
-A recording with pending inference is an honest product demonstration, but does not prove the hackathon's required working NVIDIA workload on Nebius. An OpenAI call for narration or testing cannot stand in for that requirement.
+The live fixture report is in `docs/evaluation/live-nebius.json`. A passing synthetic fixture does not establish real-world recall accuracy. OpenAI is used only for this neutral narration and caption alignment; it does not substitute for the required NVIDIA workload on Nebius.

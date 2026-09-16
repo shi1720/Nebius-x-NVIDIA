@@ -1,0 +1,60 @@
+{
+  "at": "2026-09-16T16:06:46.180Z",
+  "mode": "hosted-browser-end-to-end",
+  "origin": "https://recallroom.web.app",
+  "fixture": "Six uploaded fictional Sunward files including reviewed selectable-text PDF",
+  "run": {
+    "id": "a0261c13-1ed6-4cbf-84d1-422e23720972",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.7",
+    "inputTokens": 2600,
+    "outputTokens": 4203,
+    "latencyMs": 17562,
+    "estimatedCostUsd": 0.004562700000000001,
+    "requestId": "4803d0a10b88810ba076ecc1a94dd014",
+    "at": "2026-09-16T15:59:48.291Z"
+  },
+  "initialProposal": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360,
+    "validationIssues": []
+  },
+  "afterHumanReview": {
+    "confirmedUnits": 800,
+    "holdUnits": 0,
+    "shippedUnits": 600,
+    "outsideUnits": 600,
+    "decisions": 2,
+    "issues": []
+  },
+  "checks": {
+    "privateSixFileUpload": true,
+    "pdfTextReviewed": true,
+    "cloudTasksLiveModelCompletion": true,
+    "inspectedEveryProposedRecord": true,
+    "reviewedImport": true,
+    "recalledLotSelection": true,
+    "reloadPreservedImportAndModelAudit": true,
+    "twoQuotedReviewDecisions": true,
+    "jsonDownload": true,
+    "htmlDownload": true,
+    "exportContainsProvider": true,
+    "exportContainsSourceHash": true,
+    "exportContainsDecision": true,
+    "exportAuditRecorded": true
+  },
+  "passed": true,
+  "limitations": [
+    "One fictional scenario is not a general accuracy or production reliability benchmark.",
+    "The first two hosted proposals were rejected without importing; see hosted-nebius-initial.json.",
+    "The operator reviewed source quotations and decisions on Shivam Gupta’s behalf. Customer messages were not sent.",
+    "Provider cost is estimated from configured token prices, not reconciled billing."
+  ]
+}

@@ -17,7 +17,7 @@ const mock =
       choices: [{ message: { content }, finish_reason }],
       usage: { prompt_tokens: 500, completion_tokens: 900 },
     });
-test("OpenAI-compatible request uses NVIDIA and strict schema; response is validated draft", async () => {
+test("OpenAI-compatible request uses NVIDIA and explicit schema; response is validated draft", async () => {
   let captured: Record<string, unknown> = {};
   const fetcher = async (url: unknown, options: RequestInit | undefined) => {
     assert.equal(
@@ -37,10 +37,16 @@ test("OpenAI-compatible request uses NVIDIA and strict schema; response is valid
     fetcher as typeof fetch,
   );
   assert.equal(captured.model, DEFAULT_MODEL);
-  assert.deepEqual(
-    (captured.response_format as { json_schema: { schema: unknown } })
-      .json_schema.schema,
-    EXTRACTION_SCHEMA,
+  assert.ok(
+    (
+      captured.messages as { role: string; content: string }[]
+    )[0].content.includes(JSON.stringify(EXTRACTION_SCHEMA)),
+    "the reasoning model must see the schema, not only the constrained decoder",
+  );
+  assert.equal(
+    captured.response_format,
+    undefined,
+    "provider-guided decoding is deliberately disabled; local validation remains mandatory",
   );
   assert.equal(r.run.inputTokens, 500);
   assert.equal(r.run.outputTokens, 900);
@@ -114,5 +120,108 @@ test("cost estimate uses token counts, never a per-call invented figure", () => 
   assert.equal(
     estimateCost("nvidia/Nemotron-3_5-Lightning", 1000000, 1000000),
     0.3,
+  );
+});
+
+test("opaque upload IDs use compact source aliases and citations map back to originals", async () => {
+  const documents = seed.documents.map((document) => ({
+    ...document,
+    id: crypto.randomUUID(),
+  }));
+  const dataset = structuredClone(seed.dataset);
+  for (const record of [
+    ...dataset.lots,
+    ...dataset.links,
+    ...dataset.shipments,
+  ]) {
+    const index = seed.documents.findIndex(
+      (document) => document.id === record.evidence.documentId,
+    );
+    record.evidence.documentId = `source-${index + 1}`;
+  }
+  let body: { messages: { content: string }[] } | undefined;
+  const draft = await extractDocuments(documents, { apiKey: "test" }, (async (
+    _url,
+    options,
+  ) => {
+    body = JSON.parse(String(options?.body));
+    return mock(JSON.stringify(dataset))();
+  }) as typeof fetch);
+  const sent = JSON.parse(body!.messages[1].content).documents;
+  assert.deepEqual(
+    sent.map((d: { documentId: string }) => d.documentId),
+    documents.map((_, i) => `source-${i + 1}`),
+  );
+  assert.equal(draft.issues.length, 0);
+  assert.equal(draft.dataset.lots[0].evidence.documentId, documents[1].id);
+});
+
+test("schema-valid partial extraction flags omitted receiving, production and shipment rows", async () => {
+  const partial = { lots: [seed.dataset.lots[0]], links: [], shipments: [] };
+  const draft = await extractDocuments(
+    seed.documents,
+    { apiKey: "test" },
+    mock(JSON.stringify(partial)) as typeof fetch,
+  );
+  assert.ok(
+    draft.issues.some(
+      (issue) =>
+        issue.message.includes("received lot PB-0901-B") &&
+        issue.severity === "error",
+    ),
+  );
+  assert.ok(
+    draft.issues.some((issue) =>
+      issue.message.includes("produced lot OAT-0902"),
+    ),
+  );
+  assert.ok(
+    draft.issues.some((issue) => issue.message.includes("shipment SHP-106")),
+  );
+  assert.equal(
+    draft.dataset.lots.length,
+    1,
+    "coverage validation must never fill in model omissions",
+  );
+});
+
+test("coverage checks quoted CSV cells and detects a missing known-input relationship", async () => {
+  const documents = seed.documents.map((document) => ({
+    ...document,
+    text: document.text.replaceAll("Peanut oat bars", '"Peanut, oat bars"'),
+  }));
+  const dataset = structuredClone(seed.dataset);
+  dataset.links = dataset.links.filter((link) => link.to !== "OAT-0902");
+  const draft = await extractDocuments(
+    documents,
+    { apiKey: "test" },
+    mock(JSON.stringify(dataset)) as typeof fetch,
+  );
+  assert.ok(
+    draft.issues.some(
+      (issue) =>
+        issue.id.startsWith("source-coverage-") &&
+        issue.message.includes("input relationship for OAT-0902"),
+    ),
+  );
+  assert.ok(
+    !draft.issues.some(
+      (issue) =>
+        issue.id.startsWith("source-coverage-") &&
+        issue.message.includes("produced lot"),
+    ),
+  );
+});
+
+test("more than twelve documents fail before making a model call", async () => {
+  await assert.rejects(
+    extractDocuments(
+      Array.from({ length: 13 }, (_, i) => ({
+        ...seed.documents[0],
+        id: `doc-${i}`,
+      })),
+      { apiKey: "test" },
+    ),
+    /between 1 and 12/,
   );
 });

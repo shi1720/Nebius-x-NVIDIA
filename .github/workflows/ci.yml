@@ -19,5 +19,7 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+        env:
+          VITE_API_ORIGIN: https://recallroom-api-812985487554.us-central1.run.app
       - run: npm audit --omit=dev --audit-level=moderate
       - run: node --check scripts/test-firebase-api.mjs

@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-16T15:33:11.544Z",
+  "mode": "live-development-regression",
+  "fixture": "actual public sample TXT/CSV/PDF documents with randomized UUID IDs",
+  "prompt": "Development v1.1 with full-packet instructions and short source aliases, before explicit optional supplier/note guidance",
+  "run": {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "inputTokens": 1550,
+    "outputTokens": 2109,
+    "latencyMs": 11411,
+    "estimatedCostUsd": 0.0023631000000000004,
+    "requestId": "f4ffc30136d6a399a23f6a865f1e2ac7"
+  },
+  "actual": {
+    "lots": 2,
+    "links": 0,
+    "shipments": 0
+  },
+  "coverageErrorCount": 10,
+  "passed": false,
+  "outcome": "Rejected incomplete proposal. No fixture records substituted. Explicit optional-field guidance was added before the next recorded run.",
+  "followUpReport": "live-nebius-upload.json"
+}

@@ -54,10 +54,26 @@
     {
       "name": "Extracted PDF text matches rendered original and provenance approval persists",
       "passed": true
+    },
+    {
+      "name": "Live Nebius extraction, reviewed import, persistence, two decisions and JSON/HTML export",
+      "passed": true,
+      "report": "hosted-nebius.json"
     }
   ],
   "limitations": [
-    "Live NVIDIA/Nebius extraction is unverified.",
     "These are recorded manual acceptance observations, not automated cross-browser coverage."
-  ]
+  ],
+  "finalHostedVideo": {
+    "url": "https://recallroom.web.app/demo.html",
+    "browser": "Chrome",
+    "durationSeconds": 150.25,
+    "observedTimeSeconds": 26.73693,
+    "width": 1920,
+    "height": 1080,
+    "paused": false,
+    "muted": false,
+    "decodingError": null,
+    "note": "Final media deployed and playback advanced. An earlier in-app browser tab crashed; playback succeeded in Chrome."
+  }
 }

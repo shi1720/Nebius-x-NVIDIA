@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-09-16T15:47:07.589202+00:00",
+  "mode": "live-development-regression",
+  "fixture": "Exact hosted UI source text with regenerated UUID document IDs",
+  "promptVersion": "recallroom-extract-v1.2",
+  "error": "NEBIUS_INVALID_SCHEMA",
+  "passed": false,
+  "diagnostics": "Provider body was not retained for this trial. Exact Zod failure path, latency, usage and request ID are unavailable. The cause was not established.",
+  "outcome": "No records imported. Subsequent diagnostic runs retain provider responses privately, and prompt/decoder constraints were aligned to the domain schema."
+}

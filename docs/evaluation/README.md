@@ -4,7 +4,7 @@ The current deployment is [recallroom.web.app](https://recallroom.web.app), usin
 
 ## Current engineering checks
 
-- **37 automated unit and provider-contract tests pass.** The graph suite additionally compares results against an independent fixed-point oracle over 150 generated graphs.
+- **41 automated unit and provider-contract tests pass.** The graph suite additionally compares results against an independent fixed-point oracle over 150 generated graphs.
 - **60 of 60 hosted API checks pass** against the deployed Cloud Run service using two real disposable Firebase accounts. The [sanitized report](firebase-api.json) covers token verification, anonymous and wrong-account rejection, exact-origin CORS, task-identity rejection, persistence, source-backed review, stale revisions, original uploads and downloads, hashes, duplicate files, PDF verification, export audit, expired locks and deletion.
 - **10 of 10 operator checks pass** against the production Firestore functions. The [operator report](firebase-operator.json) verifies concurrent per-user and global quota boundaries, rejected reservations consuming no budget, a single active job per investigation, and expired-lock update and deletion behavior. Test-process limits are lowered only for the bounded test; deployed limits are unchanged. No task is enqueued and no model request is made.
 - Disposable test records and accounts were cleaned up. Deletion of uploaded originals was also verified directly in the private Google Cloud Storage bucket.
@@ -12,9 +12,9 @@ The current deployment is [recallroom.web.app](https://recallroom.web.app), usin
 
 These are engineering checks, not a benchmark of real recall outcomes, independently validated extraction accuracy, or a certification. Provider-contract tests use explicit mocks. A successful task-authentication rejection test does not establish a successful background model run.
 
-## Live inference remains pending
+## Live inference evaluation
 
-No usable Nebius key is configured. A real NVIDIA model run through Nebius Token Factory, source-to-proposal extraction, human approval, and persisted hosted import still need verification. No real model latency, usage, quality or cost is claimed. An OpenAI TTS call used for neutral demo narration is unrelated to the required NVIDIA inference workload.
+A Nebius key is configured server-side. Three direct-provider variants of the same synthetic scenario have passed during development, including the exact hosted source text with the final v1.7 adapter. See [the first fixture](live-nebius.json), [the uploaded PDF fixture](live-nebius-upload.json), and [the exact hosted text evaluation](live-nebius-hosted-packet.json). Rejected attempts are preserved alongside them, including omissions, schema errors, duplicates and decoder truncation. These development trials are not an accuracy benchmark. The [hosted end-to-end report](hosted-nebius.json) verifies the final deployed request, source review, import, recall selection, reload, two quoted decisions and exported JSON/HTML. An OpenAI TTS call used for neutral demo narration is unrelated to the required NVIDIA inference workload.
 
 ## Reproduce
 
@@ -23,7 +23,7 @@ npm ci
 npm run typecheck
 npm test
 npm run build:api
-npm run build:web
+VITE_API_ORIGIN=https://recallroom-api-812985487554.us-central1.run.app npm run build:web
 RECALLROOM_API_URL=https://recallroom-api-812985487554.us-central1.run.app node scripts/test-firebase-api.mjs
 ```
 
@@ -49,4 +49,6 @@ The earlier [production smoke report](production-smoke.json), SQLite quota check
 
 ## Final Firebase release
 
-The deployment script completed successfully on September 16, 2026. Its exact deployed API passed 60 checks with disposable-account and GCS-prefix cleanup. GitHub CI passed for application commit `9db701a`. Desktop, 390px mobile and 768px tablet browser checks passed for the inspected controls; no page overflow was found. The hosted captioned video decodes at 1920x1080, advances with audio unmuted, and matches the inspected local MP4 hash. Live NVIDIA inference on Nebius remains unverified.
+The deployment script completed successfully on September 16, 2026. Its exact deployed API passed 60 checks with disposable-account and GCS-prefix cleanup. GitHub CI passed for application commit `9db701a`. Desktop, 390px mobile and 768px tablet browser checks passed for the inspected controls; no page overflow was found. The hosted captioned video decodes at 1920x1080, advances with audio unmuted, and matches the inspected local MP4 hash. Direct NVIDIA inference is verified on synthetic source variants; the full hosted source-to-review-to-export workflow also passed, as recorded in the hosted report.
+
+The tablet screenshot `docs/screenshots/firebase-tablet.png` is historical layout QA captured before provider activation. Its configuration text does not describe the current deployment. It is excluded from the current judging imagery. Current provider evidence is in `hosted-nebius.json` and the final public video.

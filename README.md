@@ -4,11 +4,11 @@
 
 RecallRoom connects receiving logs, batch sheets and shipment records into an evidence-backed recall investigation. It is built for small food manufacturers and co-packers working with the records they already have.
 
-[Open the Firebase demo](https://recallroom.web.app) · [Watch the demo](https://www.youtube.com/watch?v=d7_Y3J3-84E) · [Testing instructions](docs/submission/devpost-fields.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
+[Open the Firebase demo](https://recallroom.web.app) · [Watch the demo](https://www.youtube.com/watch?v=J0Gy2FWsm-M) · [Testing instructions](docs/submission/devpost-fields.md) · [Pitch deck](docs/pitch/RecallRoom-pitch.pdf) · [Architecture](docs/architecture.md) · [Commercial thesis](docs/submission/business-model.md)
 
 Created by **Shivam Gupta** for the **Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents**, with AI-assisted implementation, research and testing. Public code is licensed under MIT.
 
-> **Current status:** the public synthetic drill and Firebase application are deployed. The NVIDIA Nemotron adapter is implemented, but real Nebius execution remains unverified because no usable Nebius credential is configured. An OpenAI API key does not satisfy that requirement. See [delivery status](docs/STATUS.md) for the remaining acceptance gates.
+> **Current status:** the Firebase application and real NVIDIA Nemotron 3 Super workflow are verified end to end. The hosted run extracted six lots, five relationships and six shipments with the expected scope, followed by reviewed import, reload, two evidence-backed decisions and verified exports. Inference took 17.562 seconds at an estimated $0.00456. This is one fictional scenario, not a real-world accuracy benchmark. See [the hosted report](docs/evaluation/hosted-nebius.json) and [delivery status](docs/STATUS.md).
 
 ![RecallRoom incident room](docs/screenshots/firebase-desktop.png)
 
@@ -27,7 +27,7 @@ The application says **outside the recorded path**, never **safe**. It does not 
 
 - **Private investigations:** Firebase Google or email/password sign-in, server-verified ID tokens, account-owned Firestore state and private Google Cloud Storage originals.
 - **Source ingestion:** TXT, CSV, JSON and selectable-text PDFs. Plain-text content is derived from original bytes on the server. Browser-extracted PDF text has a separate hash and requires a reviewer to compare it with the original before it can authorize an import or decision.
-- **NVIDIA extraction adapter:** strict structured-output requests to Nebius Token Factory, schema and evidence validation, bounded retries, usage recording, daily quotas and asynchronous Cloud Tasks execution. Live verification is pending.
+- **NVIDIA extraction adapter:** schema-guided prompts to Nebius Token Factory with strict server validation, bounded retries, usage recording, daily quotas and asynchronous Cloud Tasks execution. The exact schema is in the ordinary chat prompt; server checks validate JSON, source evidence and supported CSV coverage before import. Provider `response_format` constraints are disabled. The real hosted workflow and three direct-provider fixture variants passed, with development failures retained in the evaluation reports.
 - **Human approval:** model proposals remain separate from approved records. Invalid citations, references, cycles, units, balances and duplicate identities block import.
 - **Deterministic tracing:** confirmed and possible paths, unknown-input holds, multi-hop propagation, repacking without double counting, and ingredient balances that retain uncertainty as ranges.
 - **Reviewable decisions:** exclusions preserve the original relationship, quotation, reviewer, reason, timestamp and revision.
@@ -101,7 +101,7 @@ npm run build:api
 npm run build:web
 ```
 
-The current automated suite has **37 passing tests**. The graph checks include comparison with an independent fixed-point oracle over 150 generated graphs. Provider-contract tests use explicit mocks.
+The current automated suite has **41 passing tests**. The graph checks include comparison with an independent fixed-point oracle over 150 generated graphs. Provider-contract tests use explicit mocks.
 
 The Firebase acceptance suite exercises the deployed API with real disposable Firebase accounts and synthetic records:
 
@@ -119,13 +119,15 @@ The active public application is [recallroom.web.app](https://recallroom.web.app
 
 Firebase project `recallroom-ai-2026` contains Authentication, Hosting and Firestore. The isolated API service, task queue and evidence bucket use the existing billed Google Cloud project `granted-ai-2026`. These identifiers are infrastructure names; the product is RecallRoom. No Sites, D1 or R2 binding is used by the active runtime.
 
-`npm run deploy` runs the repository's Firebase deployment script. Read [operations](docs/operations.md) before deploying to a different account or project. Model inference remains targeted at NVIDIA Nemotron on Nebius Token Factory. Firebase app hosting does not by itself meet the hackathon's NVIDIA/Nebius runtime requirement.
+`npm run deploy` runs the repository's Firebase deployment script. Read [operations](docs/operations.md) before deploying to a different account or project. Model inference uses NVIDIA Nemotron on Nebius Token Factory. The sanitized live evaluation records the model, endpoint, actual token usage, latency and scope comparison separately from the Firebase hosting checks.
 
 ## Commercial scope and limits
 
 The initial buyer hypothesis is a quality manager at a small food manufacturer or co-packer, with consultants as a potential channel. Recurring readiness drills can make the workflow useful between incidents. **$99 per site per month is an unvalidated pricing hypothesis**, not traction or a billing feature. Existing products such as FoodDocs, Mar-Kov and TraceGains already address food-safety or traceability workflows.
 
 The MVP supports 12 documents and 90,000 extracted characters per investigation, 2 MB files, up to 100 lots, ingredient quantities in kg and finished goods in whole units. Scanned-image OCR, ERP connectors, team roles, billing, automatic messaging, regulatory certification and independently validated real-world extraction performance are not implemented. It is an evaluated MVP, not a certified food-safety system.
+
+Coverage detects missing supported CSV rows, but does not prove candidate completeness or semantic correctness. Review every ambiguous input against original sources before import. Missing mandatory facts block import until source correction; shipment dates remain required.
 
 ## Attribution
 
@@ -135,4 +137,4 @@ Third-party packages retain their own licenses. See [third-party notices](THIRD_
 
 ## Recorded walkthrough
 
-Watch the [captioned 2:25 demo](https://recallroom.web.app/demo.html). It uses actual captured application screens and a disclosed AI voice. The recording explicitly identifies live Nebius inference as pending. [Narration and production notes](docs/video/README.md).
+Watch the [captioned 2:30 demo](https://recallroom.web.app/demo.html). It uses actual captured application screens and a disclosed AI voice. The recording shows the actual hosted NVIDIA proposal and review workflow. [Narration and production notes](docs/video/README.md).

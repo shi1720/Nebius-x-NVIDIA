@@ -1,0 +1,152 @@
+{
+  "at": "2026-09-16T15:47:30.882Z",
+  "mode": "live",
+  "fixture": "sunward-hosted-text-uuid-v1",
+  "inputMethod": "Saved original text viewed in hosted UI; new UUID IDs; sha256 hashes text, not original file bytes",
+  "files": [
+    {
+      "id": "b6a9cfb0-a285-4bdc-84a4-47620b8bc246",
+      "name": "01_supplier_alert.txt",
+      "sha256": "8290bf455145c65762b3e47fdd1aeb41303bc68825a3dc1b40efcbe628592a1f"
+    },
+    {
+      "id": "e54a2a44-f233-48a1-9a12-66273404775b",
+      "name": "02_receiving.csv",
+      "sha256": "f39bcdafc4e95d76e90e7d10ab69fbf1b00e4bc8291b67d85f40a7197428e29b"
+    },
+    {
+      "id": "edafa004-4004-4a77-9331-faa75f2756ad",
+      "name": "03_production.csv",
+      "sha256": "867f07d37b8634c7185b19a2869924124626997d8caad040f245aaf673ffc3e1"
+    },
+    {
+      "id": "9604537a-b723-4dcc-afd3-f17c4ad827cc",
+      "name": "04_shipments.csv",
+      "sha256": "d7549d3a6464e8c3f810b9c9cdf8b0d02882db1b7af354bfe866756ae9e15bc7"
+    },
+    {
+      "id": "7ff9d37e-d592-4094-a7be-9b689181897c",
+      "name": "05_inventory_count.txt",
+      "sha256": "e3fc3d96e39d276798134d87ca20bc5620c0c54930ce09050d8e852a0803b111"
+    },
+    {
+      "id": "158e343f-89b7-498c-9f85-540899922862",
+      "name": "06_signed_batch_clarification.pdf",
+      "sha256": "badc44217ab1ce3eef55efe647828c88b8deaa202e95f8367fd3696fc0b409da"
+    }
+  ],
+  "run": {
+    "id": "ee2bf417-fee1-4212-9741-9b2b38938b3b",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.3",
+    "inputTokens": 2596,
+    "outputTokens": 5000,
+    "latencyMs": 35808,
+    "estimatedCostUsd": 0.0052788,
+    "requestId": "f01c0bf3d37af905490a1bd390ab0c65",
+    "at": "2026-09-16T15:47:30.881Z"
+  },
+  "expected": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "actual": {
+    "lots": 7,
+    "links": 0,
+    "shipments": 0,
+    "confirmedUnits": 0,
+    "holdUnits": 1400,
+    "shippedUnits": 0,
+    "holdShippedUnits": 0,
+    "outsideUnits": 0
+  },
+  "issues": [
+    {
+      "id": "unlinked-OAT-0902",
+      "severity": "warning",
+      "recordId": "OAT-0902",
+      "message": "OAT-0902 has no ingredient relationship. Treat its scope as unknown."
+    },
+    {
+      "id": "unlinked-BIT-0903",
+      "severity": "warning",
+      "recordId": "BIT-0903",
+      "message": "BIT-0903 has no ingredient relationship. Treat its scope as unknown."
+    },
+    {
+      "id": "unlinked-COO-0904",
+      "severity": "warning",
+      "recordId": "COO-0904",
+      "message": "COO-0904 has no ingredient relationship. Treat its scope as unknown."
+    },
+    {
+      "id": "unlinked-OAT-0905",
+      "severity": "warning",
+      "recordId": "OAT-0905",
+      "message": "OAT-0905 has no ingredient relationship. Treat its scope as unknown."
+    },
+    {
+      "id": "source-coverage-edafa004-4004-4a77-9331-faa75f2756ad-2",
+      "severity": "error",
+      "message": "03_production.csv, row 2: the proposal omits input relationship for OAT-0902. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-edafa004-4004-4a77-9331-faa75f2756ad-3",
+      "severity": "error",
+      "message": "03_production.csv, row 3: the proposal omits input relationship for BIT-0903. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-edafa004-4004-4a77-9331-faa75f2756ad-4",
+      "severity": "error",
+      "message": "03_production.csv, row 4: the proposal omits input relationship for COO-0904. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-edafa004-4004-4a77-9331-faa75f2756ad-5",
+      "severity": "error",
+      "message": "03_production.csv, row 5: the proposal omits input relationship for OAT-0905. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-2",
+      "severity": "error",
+      "message": "04_shipments.csv, row 2: the proposal omits shipment SHP-101. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-3",
+      "severity": "error",
+      "message": "04_shipments.csv, row 3: the proposal omits shipment SHP-102. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-4",
+      "severity": "error",
+      "message": "04_shipments.csv, row 4: the proposal omits shipment SHP-103. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-5",
+      "severity": "error",
+      "message": "04_shipments.csv, row 5: the proposal omits shipment SHP-104. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-6",
+      "severity": "error",
+      "message": "04_shipments.csv, row 6: the proposal omits shipment SHP-105. Review the source and correct the draft before importing."
+    },
+    {
+      "id": "source-coverage-9604537a-b723-4dcc-afd3-f17c4ad827cc-7",
+      "severity": "error",
+      "message": "04_shipments.csv, row 7: the proposal omits shipment SHP-106. Review the source and correct the draft before importing."
+    }
+  ],
+  "passed": false,
+  "limitations": [
+    "One additional synthetic fixture is not an accuracy benchmark.",
+    "This script calls Nebius directly, not the hosted application. Input is either local sample files or source text saved from the hosted UI, as identified in inputMethod.",
+    "Clarification is evidence for later human review, not permission for automatic relationship decisions."
+  ]
+}

@@ -1,3 +1,4 @@
+import { validateExtractionCoverage } from "@/lib/nebius";
 import { z } from "zod";
 import {
   identity,
@@ -87,7 +88,10 @@ export async function POST(
         );
       if (!inv.draft || inv.draft.id !== body.draftId)
         throw new ApiError(409, "This extraction draft is no longer current.");
-      const issues = validateDataset(body.dataset, inv.documents);
+      const issues = [
+        ...validateDataset(body.dataset, inv.documents),
+        ...validateExtractionCoverage(body.dataset, inv.documents),
+      ];
       if (issues.some((i) => i.severity === "error"))
         throw new ApiError(
           422,

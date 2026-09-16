@@ -12,7 +12,7 @@ A recall starts with one lot. Know where it ends. RecallRoom connects food-produ
 
 - Working application: https://recallroom.web.app
 - Public repository: https://github.com/shi1720/Nebius-x-NVIDIA
-- Public video: https://www.youtube.com/watch?v=d7_Y3J3-84E
+- Public video: https://www.youtube.com/watch?v=J0Gy2FWsm-M
 - Track: Best Apps and Agents
 - Creator: Shivam Gupta
 - License: MIT
@@ -37,10 +37,10 @@ Use RecallRoom throughout. “Granted” is an existing infrastructure project n
 
 ## Testing instructions: private records and model extraction
 
-**Current limit:** Private storage and authentication are implemented on Firebase. The full hosted model workflow cannot pass until a usable Nebius key is configured. Steps that need live extraction are acceptance instructions, not a claim that they have already passed.
+Private storage and authentication use Firebase. The real NVIDIA Nemotron 3 Super workflow through Nebius Token Factory passed hosted upload, reviewed import, reload, two quoted review decisions and export. The instructions below reproduce that private workflow. Use only fictional or authorized records.
 
 1. Use Google sign-in or create an email/password account with the authentication form. Create a private investigation. No shared judge password is required if the deployed sign-in flow permits new accounts.
-2. Start from an empty investigation. Download and unzip the synthetic source pack, then upload its receiving, production, and shipment records. Use fictional or authorized test data only.
+2. Start from an empty investigation. Download and unzip the synthetic source pack. Upload files 01 through 05 and one copy of file 06, either the selectable-text PDF or the TXT clarification. Do not upload both versions of the same clarification. Use fictional or authorized test data only.
 3. If testing the selectable-text PDF, inspect its original and explicitly verify the extracted text before using it as evidence. Scanned-image OCR is not supported.
 4. Choose **Extract with Nemotron**. Wait for the request to finish. Inspect the actual model identifier, provider trace, source citations, and proposal. A request or validation failure should display an error without replacing approved records.
 5. Review the proposal and choose **Import reviewed records** only after checking the evidence. Set `PB-0901-A` as the recalled lot and inspect the resulting scope.
@@ -48,13 +48,21 @@ Use RecallRoom throughout. “Granted” is an existing infrastructure project n
 7. Sign out. Private investigations and source files must require authentication. A different signed-in account must not be able to read the first account's investigation.
 8. Delete the disposable investigation when finished.
 
-The initial fixture has ambiguity by design. A live proposal may need correction against the provided source records before it matches the sample answer key. Do not silently substitute a fixture for a failed model request.
+The initial fixture has ambiguity by design. The clarification supports a later review decision; it does not authorize the model to silently rewrite the historical ambiguous record. A live proposal may need correction against the source records before it matches the answer key. Keep unsupported or incomplete proposals out of the investigation. Never substitute a fixture for a failed model request.
 
 
-## Implementation claims after verified inference
+## Recorded real NVIDIA evaluation
 
-Only after recording a successful real NVIDIA run on Nebius, replace the pending model paragraph in the story with:
+The [sanitized provider trace](../evaluation/live-nebius.json) records `nvidia/nemotron-3-super-120b-a12b` on Nebius Token Factory against `sunward-v1`. All five expected scope totals matched: 800 confirmed units, 240 held units, 600 confirmed shipped units, 120 held shipped units and 360 units outside the recorded path. The response passed validation.
 
-> NVIDIA Nemotron, served through Nebius Token Factory, turns uploaded records into a structured proposal with source quotations. We validated the integration against the supplied synthetic records and recorded the actual model identifier, provider, usage, and latency. The model output enters a review queue, and a person must approve it before it becomes part of the investigation. This fixture test establishes that the integration works; it does not establish real-world extraction accuracy.
+The run took 21.929 seconds and used 1,332 input plus 4,731 output tokens. Estimated inference cost was $0.00466, excluding app infrastructure and human review. One synthetic fixture establishes a working integration, not real-world extraction accuracy or typical latency. Model output requires human approval before import. OpenAI supplied supporting demo narration, not recall extraction.
 
-The Firebase application is publicly deployed. That fact does not by itself satisfy the requirement for NVIDIA inference on Nebius. An OpenAI test or narration-generation call is not evidence of that integration.
+The [UUID/PDF evaluation](../evaluation/live-nebius-upload.json) additionally used actual sample files with random document identifiers and browser-equivalent PDF text. It returned six lots, five relationships and six shipments with the same expected totals in 42.923 seconds, using 1,611 input and 4,641 output tokens at an estimated $0.0046602. An earlier hosted proposal omitted most records and was not imported. Subsequent source-row coverage checks block such incomplete proposals. These are two passing variants of one fictional scenario, with failures during development; they are not an accuracy benchmark.
+
+Coverage detects missing supported CSV rows, but does not prove candidate completeness or semantic correctness. Review every ambiguous input against original sources before import. Missing mandatory facts block import until source correction; shipment dates remain required.
+
+The final adapter uses a schema-guided prompt and strict server validation. It sends ordinary chat requests without provider `response_format` constraints, then requires valid JSON, domain schema, evidence and source coverage before import. A [direct-provider check using exact hosted text](../evaluation/live-nebius-hosted-packet.json) passed with six lots, five links and six shipments in 44.350 seconds, at an estimated $0.0057426. This third direct-provider variant preceded the actual hosted acceptance below. All development failures remain recorded.
+
+## Verified hosted acceptance
+
+The [actual hosted browser report](../evaluation/hosted-nebius.json) passed the six-file workflow. Nemotron returned six lots, five links and six shipments with all five expected initial scope totals. The run took 17.562 seconds, used 2,600 input plus 4,203 output tokens and had an estimated $0.0045627 inference cost. Reviewed import and recalled-lot selection persisted after reload. Two evidence-backed decisions removed the cookie hold from this recall path. JSON and HTML exports included the provider, source hash and decision history. This is one fictional scenario, not an accuracy or production-reliability benchmark.

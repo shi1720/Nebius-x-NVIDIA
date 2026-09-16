@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-09-16T15:53:24.881212+00:00",
+  "mode": "live-development-regression",
+  "fixture": "Exact hosted source text with regenerated UUID document IDs",
+  "promptVersion": "recallroom-extract-v1.6",
+  "responseMode": "json_object",
+  "error": "NEBIUS_OUTPUT_TRUNCATED",
+  "usage": {
+    "completion_tokens": 12000,
+    "prompt_tokens": 2586,
+    "total_tokens": 14586,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 3694,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "created_cache_tokens": 0,
+      "multimodal_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 2586
+  },
+  "providerResponseId": "chatcmpl-b4698eb49f071309",
+  "passed": false,
+  "outcome": "Provider emitted repeated closing brackets until the output limit; final JSON was incomplete. No records imported."
+}

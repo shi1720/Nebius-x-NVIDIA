@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-16T15:25:37.503Z",
+  "mode": "live",
+  "fixture": "sunward-v1",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "baseUrl": "https://api.tokenfactory.nebius.com/v1/",
+  "run": {
+    "id": "a5f64169-eb94-47d6-93ba-146e076406c5",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.0",
+    "inputTokens": 1332,
+    "outputTokens": 4731,
+    "latencyMs": 21929,
+    "estimatedCostUsd": 0.004657500000000001,
+    "requestId": "4b6e5fe5f8a8b3154c584a6b17ee06d6",
+    "at": "2026-09-16T15:25:37.502Z"
+  },
+  "issues": [],
+  "expected": {
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "actual": {
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "scopeMatches": true,
+  "passed": true,
+  "limitations": [
+    "One synthetic extraction fixture is not a real-world accuracy benchmark.",
+    "Human review is still required before importing the extracted records."
+  ]
+}

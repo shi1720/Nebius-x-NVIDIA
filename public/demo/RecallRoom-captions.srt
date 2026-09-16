@@ -135,77 +135,89 @@ The recorded balance now shows 50 kilograms
 of the recalled ingredient remaining.
 
 35
-00:01:30,685 --> 00:01:33,305
-The extraction adapter is built for NVIDIA
+00:01:30,685 --> 00:01:33,565
+Here is a real extraction with NVIDIA
 
 36
-00:01:33,305 --> 00:01:36,845
+00:01:33,565 --> 00:01:36,465
 Nemotron on Nebius Token Factory.
 
 37
-00:01:36,845 --> 00:01:39,845
-Live provider verification is still pending.
+00:01:36,465 --> 00:01:39,525
+The model proposes records and exact source
 
 38
-00:01:39,845 --> 00:01:43,345
-This sample uses clearly labeled synthetic records.
+00:01:39,525 --> 00:01:40,925
+quotes.
 
 39
-00:01:43,345 --> 00:01:46,185
-In the workflow, model proposals require validation
+00:01:40,925 --> 00:01:44,045
+Application code validates the evidence and calculates
 
 40
-00:01:46,185 --> 00:01:49,424
-and human approval before import.
+00:01:44,045 --> 00:01:45,365
+the scope.
 
 41
-00:01:49,424 --> 00:01:52,944
-Finally, export the investigation packet.
+00:01:45,365 --> 00:01:48,845
+A person reviews the proposal before import.
 
 42
-00:01:52,944 --> 00:01:55,984
-It includes the shipment register, evidence, review
+00:01:48,845 --> 00:01:51,845
+The run history shows the actual provider,
 
 43
-00:01:55,984 --> 00:01:59,324
-decisions, and customer specific message drafts.
+00:01:51,845 --> 00:01:54,593
+model, token usage, and latency.
 
 44
-00:01:59,324 --> 00:02:02,626
-A quality manager controls what happens next.
+00:01:54,593 --> 00:01:58,113
+Finally, export the investigation packet.
 
 45
-00:02:02,626 --> 00:02:05,946
-RecallRoom is designed for smaller teams using
+00:01:58,113 --> 00:02:01,153
+It includes the shipment register, evidence, review
 
 46
-00:02:05,946 --> 00:02:08,486
-the records they already have.
+00:02:01,153 --> 00:02:04,493
+decisions, and customer specific message drafts.
 
 47
-00:02:08,486 --> 00:02:11,046
-Recurring drills can expose missing evidence before
+00:02:04,493 --> 00:02:07,794
+A quality manager controls what happens next.
 
 48
-00:02:11,046 --> 00:02:12,666
-an emergency.
+00:02:07,794 --> 00:02:11,114
+RecallRoom is designed for smaller teams using
 
 49
-00:02:12,666 --> 00:02:14,746
-Our next step is to validate that
+00:02:11,114 --> 00:02:13,655
+the records they already have.
 
 50
-00:02:14,746 --> 00:02:17,612
-workflow with quality professionals.
+00:02:13,655 --> 00:02:16,215
+Recurring drills can expose missing evidence before
 
 51
-00:02:17,612 --> 00:02:20,752
-A recall starts with one lot.
+00:02:16,215 --> 00:02:17,834
+an emergency.
 
 52
-00:02:20,752 --> 00:02:22,432
-RecallRoom helps you see where it ends
+00:02:17,834 --> 00:02:19,914
+Our next step is to validate that
 
 53
-00:02:22,432 --> 00:02:25,056
+00:02:19,914 --> 00:02:22,781
+workflow with quality professionals.
+
+54
+00:02:22,781 --> 00:02:25,921
+A recall starts with one lot.
+
+55
+00:02:25,921 --> 00:02:27,601
+RecallRoom helps you see where it ends
+
+56
+00:02:27,601 --> 00:02:30,225
 and what still needs an answer.

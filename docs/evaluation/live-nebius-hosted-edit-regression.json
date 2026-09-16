@@ -1,0 +1,85 @@
+{
+  "at": "2026-09-16T15:49:21.651Z",
+  "mode": "live",
+  "fixture": "sunward-hosted-text-uuid-v1",
+  "inputMethod": "Saved original text viewed in hosted UI; new UUID IDs; sha256 hashes text, not original file bytes",
+  "files": [
+    {
+      "id": "7cf44e10-27c4-4adc-b7ad-2611fce83900",
+      "name": "01_supplier_alert.txt",
+      "sha256": "8290bf455145c65762b3e47fdd1aeb41303bc68825a3dc1b40efcbe628592a1f"
+    },
+    {
+      "id": "f8cf56cf-1652-4790-a1f8-4b16f6797cb6",
+      "name": "02_receiving.csv",
+      "sha256": "f39bcdafc4e95d76e90e7d10ab69fbf1b00e4bc8291b67d85f40a7197428e29b"
+    },
+    {
+      "id": "0d7b08ce-3d65-4130-8114-97f60993c168",
+      "name": "03_production.csv",
+      "sha256": "867f07d37b8634c7185b19a2869924124626997d8caad040f245aaf673ffc3e1"
+    },
+    {
+      "id": "a54ae829-49cf-48c5-bb18-f42ef581a113",
+      "name": "04_shipments.csv",
+      "sha256": "d7549d3a6464e8c3f810b9c9cdf8b0d02882db1b7af354bfe866756ae9e15bc7"
+    },
+    {
+      "id": "17bf195f-f606-420b-92b3-e52e5c45d9cf",
+      "name": "05_inventory_count.txt",
+      "sha256": "e3fc3d96e39d276798134d87ca20bc5620c0c54930ce09050d8e852a0803b111"
+    },
+    {
+      "id": "3f971b8d-5998-474f-bc10-6798f3b143bc",
+      "name": "06_signed_batch_clarification.pdf",
+      "sha256": "badc44217ab1ce3eef55efe647828c88b8deaa202e95f8367fd3696fc0b409da"
+    }
+  ],
+  "run": {
+    "id": "728096bc-0928-473c-84bd-a799c47affe2",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.4",
+    "inputTokens": 2596,
+    "outputTokens": 4271,
+    "latencyMs": 18976,
+    "estimatedCostUsd": 0.0046226999999999996,
+    "requestId": "4850e3f4ed84dd0542caff9228a8fe9e",
+    "at": "2026-09-16T15:49:21.650Z"
+  },
+  "expected": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "actual": {
+    "lots": 7,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 1280,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "issues": [
+    {
+      "id": "duplicate-OAT-0902",
+      "severity": "error",
+      "recordId": "OAT-0902",
+      "message": "Duplicate record ID: OAT-0902."
+    }
+  ],
+  "passed": false,
+  "limitations": [
+    "One additional synthetic fixture is not an accuracy benchmark.",
+    "This script calls Nebius directly, not the hosted application. Input is either local sample files or source text saved from the hosted UI, as identified in inputMethod.",
+    "Clarification is evidence for later human review, not permission for automatic relationship decisions."
+  ],
+  "developmentNote": "An attempted removal of the unanchored label regex did not match the formatted source, so this trial still used the prior decoder pattern. It failed duplicate-ID validation. No output was imported."
+}

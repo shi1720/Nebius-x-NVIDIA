@@ -50,9 +50,9 @@ A Firestore transaction claims only queued, current jobs. Duplicate deliveries d
 
 ## Model contract
 
-Default model: `nvidia/nemotron-3-super-120b-a12b` through `https://api.tokenfactory.nebius.com/v1/`. Strict structured output describes lots, links and shipments. Zod and domain checks independently validate the response. Successful runs record actual model identity, request ID when supplied, prompt version, token usage, latency and an estimated cost.
+Default model: `nvidia/nemotron-3-super-120b-a12b` through `https://api.tokenfactory.nebius.com/v1/`. The exact JSON Schema for lots, links and shipments is included in the prompt. The final adapter uses ordinary chat generation, without provider-guided decoding, after repeated guided-output failures in development. Strict Zod, citation, duplicate, quantity and supported CSV coverage checks validate the response on the server before human approval. Successful runs record actual model identity, request ID when supplied, prompt version, token usage, latency and an estimated cost.
 
-The adapter has bounded input and output, at most two HTTP attempts for selected transient failures, a 90-second total budget and no silent provider fallback. Invalid JSON, truncation, schema errors, unavailable models and authentication errors are visible failures. A real successful call is still required to verify this integration.
+The adapter has bounded input and output, at most two HTTP attempts for selected transient failures, a 90-second total budget and no silent provider fallback. Invalid JSON, truncation, schema errors, unavailable models and authentication errors are visible failures. Real direct-provider evaluations are retained under `docs/evaluation`. The evaluation history includes rejected incomplete and malformed outputs; individual synthetic passes do not establish general extraction accuracy.
 
 ## Deployment topology
 
@@ -62,4 +62,4 @@ The adapter has bounded input and output, at most two HTTP attempts for selected
 - API, Cloud Tasks and private evidence bucket project: `granted-ai-2026`.
 - Static frontend: Vite and React. API: Next.js on Node.js.
 
-This separation keeps application hosting independent from the intended Nebius inference workload. It does not imply that Firebase or Google Cloud counts as Nebius infrastructure.
+This separation keeps application hosting independent from the Nebius inference workload. It does not imply that Firebase or Google Cloud counts as Nebius infrastructure.

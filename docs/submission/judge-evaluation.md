@@ -2,6 +2,37 @@
 
 **Purpose:** An evidence-based rehearsal against the published rubric. This is an internal evaluation, not an official judge score or prediction of winning.
 
+## Final internal rubric review: September 16, 2026, 16:13 UTC
+
+**Review status:** INTERNAL rehearsal, not an official jury score, external audit or prize prediction. A separate LLM agent conducted this bounded review of the release evidence and selected implementation boundaries. This agent also edited submission documents and pitch assets, so this is not independent external validation.
+
+**Revision:** working tree based on `4b0b7788f01215025a6425b3294036e1a11af414`, including the final v1.7 adapter and hosted acceptance report. The eventual submission commit must include these changes. The review inspected the current project story, README, rendered final pitch and brief, desktop/mobile/tablet screenshots, actual provider and cloud reports, draft-approval endpoint and CSV coverage implementation. It relied on recorded browser evidence and did not independently repeat the entire browser workflow or interview customers.
+
+| Criterion | Internal score | Demonstrated evidence and limit |
+| --- | ---: | --- |
+| Technological implementation | 4 / 5 | The [hosted report](../evaluation/hosted-nebius.json) verifies real NVIDIA Nemotron 3 Super on Nebius Token Factory through Cloud Tasks, six private uploads, reviewed import, persistence and audited exports. All 17 proposed records matched the synthetic answer key. The code enforces ownership, revision and draft checks, PDF text verification, domain validation and supported CSV coverage before import. The recorded 41 unit/provider tests, [60 API checks](../evaluation/firebase-api.json) and [10 operator checks](../evaluation/firebase-operator.json) support the boundaries. One fictional scenario and retained extraction failures limit broader reliability claims. |
+| Design | 4 / 5 | The incident summary separates 800 confirmed units from a 240-unit uncertain batch. Source inspection and two evidence-backed decisions provide a coherent path to a response packet. Desktop, 390px mobile and 768px tablet evidence shows readable hierarchy and working navigation. The final pitch and captioned demo explain the same workflow. Browser coverage is recorded manual acceptance, not comprehensive accessibility or cross-browser testing. |
+| Potential impact | 3 / 5 | The buyer and trigger are specific: quality managers at small manufacturers reconciling existing records after a supplier alert or during a drill. The $99/site/month hypothesis and consultant channel are credible experiments. There are no customer interviews, paid pilots, measured time savings or evidence of repeat use. A low measured inference cost alone cannot validate willingness to pay or support costs. |
+| Quality of the idea | 4 / 5 | The project focuses on an explainable recall boundary. AI proposes cited records, deterministic logic calculates quantities, and reviewers preserve unresolved relationships until evidence supports changes. The cookie example demonstrates this distinction clearly. Existing traceability vendors are acknowledged. Differentiation remains a product hypothesis until users choose this workflow over their alternatives. |
+
+**Internal total: 15 / 20.** Equal weighting is a rehearsal convention because the published rubric does not specify numerical weights. The improvement from the historical 13/20 review reflects verified hosted NVIDIA use and working import/export evidence. It does not predict the judges' decision.
+
+### Material findings
+
+1. **Evidence breadth remains the main limitation.** The successful hosted case and several direct-provider variants share one fictional scenario. Keep this limitation and the failed attempts visible. The current story does so. No additional feature work is required to make that claim honest.
+2. **Coverage checks are not semantic proof.** The inspected implementation catches missing supported CSV rows, but it cannot prove that every ambiguous candidate is present or that every inferred relationship is correct. The final testing instructions correctly require reviewing ambiguous inputs against original sources before import. This is a documented operational limit, not a reason to relabel the fixture as production accuracy.
+3. **One historical screenshot needs context.** `docs/screenshots/firebase-tablet.png` still displays the pre-activation message that live inference awaits configuration. Label it as historical layout evidence or exclude it from current judging imagery. The [hosted report](../evaluation/hosted-nebius.json), final pitch and video establish the current integration. Do not use the stale screenshot to describe current provider status.
+
+No additional submission-blocking implementation defect was identified in this bounded review. Final publication checks and the Devpost submitted state remain release tasks for the primary operator. This finding is limited to the inspected artifacts and code boundaries.
+
+## Live-provider evidence update: September 16, 2026
+
+After the rehearsal below, a real NVIDIA Nemotron 3 Super request through Nebius Token Factory passed the `sunward-v1` synthetic fixture. The [sanitized trace](../evaluation/live-nebius.json) records 21.929 seconds, 1,332 input and 4,731 output tokens, an estimated $0.00466 inference cost, no validation issues and exact agreement with all five expected scope totals.
+
+The later [UUID/PDF fixture](../evaluation/live-nebius-upload.json) also passed after an [incomplete hosted proposal](../evaluation/hosted-nebius-initial.json) triggered prompt and coverage fixes. The current unit/provider suite has 41 tests. The original scorecard below retains its historical 37-test context.
+
+This resolves the rehearsal's missing real-provider evidence. The later [hosted browser acceptance](../evaluation/hosted-nebius.json) passed actual upload, NVIDIA extraction, reviewed import, reload, two cited decisions and inspected exports. The actual inference took 17.562 seconds at an estimated $0.0045627. The original **13/20** score below remains a historical rehearsal, not a current score. At the time of that evidence update, no new scoring pass had been conducted; the later bounded review appears above. Passing variants of one fictional scenario, with failures during development, do not establish real-world recall accuracy, customer value or typical provider performance.
+
 ## Firebase release review: September 16, 2026
 
 **Reviewer:** independent LLM engineering reviewer. Reviewed the Firebase migration working tree based on commit `f12443b`, source code, recorded browser acceptance and the actual cloud test reports. This pass did not open another browser session or conduct customer interviews.
@@ -31,7 +62,7 @@
 - [Hosted API report](../evaluation/firebase-api.json): 60 passing checks in the recorded run; exact test-account GCS prefixes were verified empty after deletion. The final deployment includes two additional active-job recovery assertions, both passing.
 - [Operator report](../evaluation/firebase-operator.json): 10 passing checks against the production Firestore functions. Only disposable cases were used; test reservations and account counters were cleaned up. No inference tasks were enqueued.
 - The 37 unit/provider-contract tests, typecheck and lint pass after the final code fixes. Mocked model responses do not prove live model quality.
-- **Highest priority:** obtain the required Nebius credential, run the synthetic extraction evaluation, then demonstrate hosted upload, NVIDIA extraction, reviewed import, lot selection and export. Record actual model ID, latency, usage, output defects and reviewer corrections.
+- **Original highest priority, now partly resolved:** the credential and real synthetic evaluation are complete. Demonstrate hosted upload, NVIDIA extraction, reviewed import, lot selection and export, recording provider metadata and reviewer corrections.
 - **Commercial next step:** test the workflow with a consenting quality manager using a small approved dataset. Measure baseline investigation time, time with RecallRoom, missing relationships and review effort. Do not invent those results for the pitch.
 - **Submission next step:** verify the public video and every Devpost link. Keep narration explicit about any provider verification still pending. A polished video cannot turn an unavailable integration into a completed requirement.
 

@@ -6,7 +6,7 @@
   "But this cookie batch only says P B September. That could refer to a different ingredient lot. RecallRoom keeps two hundred forty cookies on a separate precautionary hold, including one hundred twenty that have shipped. The uncertainty stays visible.",
   "Now open the supporting clarification. It identifies lot B and explicitly says no lot A was used. A reviewer excludes the lot A relationship, then confirms lot B using that evidence.",
   "The cookie hold leaves this recall path. The original relationship, exact quote, and review decision remain in the history. The recorded balance now shows fifty kilograms of the recalled ingredient remaining.",
-  "The extraction adapter is built for NVIDIA Nemotron on Nebius Token Factory. Live provider verification is still pending. This sample uses clearly labeled synthetic records. In the workflow, model proposals require validation and human approval before import.",
+  "Here is a real extraction with NVIDIA Nemotron on Nebius Token Factory. The model proposes records and exact source quotes. Application code validates the evidence and calculates the scope. A person reviews the proposal before import. The run history shows the actual provider, model, token usage, and latency.",
   "Finally, export the investigation packet. It includes the shipment register, evidence, review decisions, and customer-specific message drafts. A quality manager controls what happens next.",
   "RecallRoom is designed for smaller teams using the records they already have. Recurring drills can expose missing evidence before an emergency. Our next step is to validate that workflow with quality professionals.",
   "A recall starts with one lot. RecallRoom helps you see where it ends, and what still needs an answer."

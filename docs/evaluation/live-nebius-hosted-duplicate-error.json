@@ -1,0 +1,90 @@
+{
+  "at": "2026-09-16T15:50:31.938Z",
+  "mode": "live",
+  "fixture": "sunward-hosted-text-uuid-v1",
+  "inputMethod": "Saved original text viewed in hosted UI; new UUID IDs; sha256 hashes text, not original file bytes",
+  "files": [
+    {
+      "id": "4f74ba2a-77f1-41e5-8193-ec102360c02f",
+      "name": "01_supplier_alert.txt",
+      "sha256": "8290bf455145c65762b3e47fdd1aeb41303bc68825a3dc1b40efcbe628592a1f"
+    },
+    {
+      "id": "88340ab8-a671-489b-a813-1544d9c06165",
+      "name": "02_receiving.csv",
+      "sha256": "f39bcdafc4e95d76e90e7d10ab69fbf1b00e4bc8291b67d85f40a7197428e29b"
+    },
+    {
+      "id": "50c1f3f5-8264-43b3-8882-24783c8f4f46",
+      "name": "03_production.csv",
+      "sha256": "867f07d37b8634c7185b19a2869924124626997d8caad040f245aaf673ffc3e1"
+    },
+    {
+      "id": "1a7ba31b-4c04-4e67-819d-61425035a5e9",
+      "name": "04_shipments.csv",
+      "sha256": "d7549d3a6464e8c3f810b9c9cdf8b0d02882db1b7af354bfe866756ae9e15bc7"
+    },
+    {
+      "id": "b08d3264-5089-416e-807b-1bbb14839095",
+      "name": "05_inventory_count.txt",
+      "sha256": "e3fc3d96e39d276798134d87ca20bc5620c0c54930ce09050d8e852a0803b111"
+    },
+    {
+      "id": "371ca6d9-0497-4f68-b7d9-1448f5fa7b35",
+      "name": "06_signed_batch_clarification.pdf",
+      "sha256": "badc44217ab1ce3eef55efe647828c88b8deaa202e95f8367fd3696fc0b409da"
+    }
+  ],
+  "run": {
+    "id": "613587af-8d22-4059-b024-8d3ecbe5c956",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "provider": "Nebius Token Factory",
+    "promptVersion": "recallroom-extract-v1.5",
+    "inputTokens": 2586,
+    "outputTokens": 6155,
+    "latencyMs": 34894,
+    "estimatedCostUsd": 0.0063153,
+    "requestId": "03ce14c0c41c3fbf4965cab597a5d054",
+    "at": "2026-09-16T15:50:31.937Z"
+  },
+  "expected": {
+    "lots": 6,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "actual": {
+    "lots": 8,
+    "links": 5,
+    "shipments": 6,
+    "confirmedUnits": 800,
+    "holdUnits": 240,
+    "shippedUnits": 600,
+    "holdShippedUnits": 120,
+    "outsideUnits": 360
+  },
+  "issues": [
+    {
+      "id": "duplicate-PB-0901-A",
+      "severity": "error",
+      "recordId": "PB-0901-A",
+      "message": "Duplicate record ID: PB-0901-A."
+    },
+    {
+      "id": "duplicate-PB-0901-B",
+      "severity": "error",
+      "recordId": "PB-0901-B",
+      "message": "Duplicate record ID: PB-0901-B."
+    }
+  ],
+  "passed": false,
+  "limitations": [
+    "One additional synthetic fixture is not an accuracy benchmark.",
+    "This script calls Nebius directly, not the hosted application. Input is either local sample files or source text saved from the hosted UI, as identified in inputMethod.",
+    "Clarification is evidence for later human review, not permission for automatic relationship decisions."
+  ]
+}

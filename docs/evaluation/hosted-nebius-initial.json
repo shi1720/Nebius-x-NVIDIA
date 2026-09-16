@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-16T15:34:43.736Z",
+  "surface": "https://recallroom.web.app/workspace",
+  "fixture": "six uploaded Sunward synthetic files, including reviewed PDF text",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "provider": "Nebius Token Factory",
+  "observedUi": {
+    "lots": 1,
+    "links": 0,
+    "shipments": 0,
+    "latencySeconds": 20.7,
+    "inputTokens": 1601,
+    "outputTokens": 3938,
+    "estimatedCostUsd": 0.00402
+  },
+  "outcome": "Incomplete proposal was not imported. Triggered coverage validation and extraction reliability work.",
+  "proposal": {
+    "lots": [
+      {
+        "id": "PB-0901-A",
+        "name": "Peanut butter",
+        "kind": "ingredient",
+        "quantity": 100,
+        "unit": "kg",
+        "supplier": "Valley Nut Co.",
+        "evidence": {
+          "documentId": "doc-872810c9-1be4-4b60-b547-66556e5cfb39",
+          "quote": "ingredient,PB-0901-A,Peanut butter,100,kg,Valley Nut Co.,2026-09-01"
+        }
+      }
+    ],
+    "links": [],
+    "shipments": []
+  },
+  "passed": false,
+  "followUp": {
+    "promptVersion": "recallroom-extract-v1.1",
+    "observedUi": {
+      "lots": 0,
+      "links": 0,
+      "shipments": 0,
+      "latencySeconds": 28.5,
+      "inputTokens": 1621,
+      "outputTokens": 1862,
+      "estimatedCostUsd": 0.00216,
+      "coverageErrorCount": 12
+    },
+    "outcome": "Missing source records were flagged; proposal not imported."
+  },
+  "importGuardVerified": "The deployed server rejected an attempt to import the original one-lot proposal with error: 02_receiving.csv, row 3: the proposal omits received lot PB-0901-B. Investigation revision remained unchanged."
+}
