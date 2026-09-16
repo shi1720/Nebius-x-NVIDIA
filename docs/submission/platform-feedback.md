@@ -8,7 +8,7 @@ Useful documentation details for this workflow include an exact current model id
 
 ## Direct runtime feedback is pending
 
-No usable Nebius API key is configured, and no real NVIDIA inference has been verified. Account creation and terms acceptance are complete, and zero data retention is enabled. The console requires billing address and card verification before proceeding. The official $25 hackathon promo code has arrived by email but has not been redeemed. We therefore make no firsthand claims about provider latency, response quality, reliability, token cost, hardware performance or development speed improvements from actual inference.
+No usable Nebius API key is configured, and no real NVIDIA inference has been verified. Account creation and terms acceptance are complete, and zero data retention is enabled. The billing setup and official $25 hackathon promo-code redemption are complete; the console shows Billing: Active. API-key creation and live inference verification remain pending. We therefore make no firsthand claims about provider latency, response quality, reliability, token cost, hardware performance or development speed improvements from actual inference.
 
 A clearer credit-activation checklist before sign-up would help participants prepare for the billing verification step. This is an observed onboarding issue, not a claim about model performance.
 
