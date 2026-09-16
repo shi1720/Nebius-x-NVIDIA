@@ -21,12 +21,12 @@
     "playedToEnd": true
   },
   "devpostVideoFieldSaved": true,
-  "devpostStepsComplete": "4/5",
-  "devpostSubmitted": false,
+  "devpostSubmitted": true,
   "limitations": [
     "Recording uses fictional source records and actual captured application screens.",
     "One verified hosted model scenario is not a real-world accuracy benchmark.",
     "YouTube platform checks do not establish hackathon eligibility."
   ],
-  "previousVideoUrl": "https://www.youtube.com/watch?v=d7_Y3J3-84E"
+  "previousVideoUrl": "https://www.youtube.com/watch?v=d7_Y3J3-84E",
+  "devpostConfirmation": "Project submitted!"
 }

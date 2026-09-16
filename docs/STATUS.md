@@ -38,14 +38,15 @@ The [first two hosted proposals](evaluation/hosted-nebius-initial.json) omitted 
 
 The refreshed **150.25-second** public demo is [on YouTube](https://www.youtube.com/watch?v=J0Gy2FWsm-M). It shows actual captured application screens, including the live hosted NVIDIA proposal. It uses a disclosed neutral AI voice, burned-in captions and a published English subtitle track. A branded thumbnail and AI-use disclosure are set. YouTube's copyright and Community Guidelines checks reported no issues. Signed-out playback reached the end at 1080p with audio and no decoding error. Downloadable media is available through [the demo page](https://recallroom.web.app/demo.html).
 
-Devpost's story, links, screenshots, thumbnail, technical feedback and judge attachment have been saved to the existing draft. The country, applicable province response, age and affiliation declarations are saved using the user's confirmation. The final revised story, links, provider feedback and judge attachment were saved and inspected in Devpost. Final submission remains incomplete. Current story, testing instructions, feedback and pitch artifacts are in the repository.
+Devpost's story, links, screenshots, thumbnail, technical feedback and judge attachment have been saved to the existing draft. The country, applicable province response, age and affiliation declarations are saved using the user's confirmation. The final revised story, links, provider feedback and judge attachment were saved and inspected in Devpost. **Devpost submission is complete.** The public project page confirmed "Project submitted!" after the final rules acknowledgement. Current story, testing instructions, feedback and pitch artifacts are in the repository.
 
-## Remaining submission steps
+## Submitted project
 
-1. Application verification is complete for the tested workflows: 41 unit/provider tests, 60 hosted API checks, 10 operator checks, responsive browser inspection, and the real NVIDIA hosted extraction-to-export workflow.
-2. The refreshed video is public and signed-out playback reached the end. Final Firebase media deployment and Chrome playback are verified.
-3. Refresh Devpost's final links and materials, review its final rules acknowledgement and verify the submitted state. Eligibility declarations are saved.
-4. Keep the public demo available through December 15, 2026, the stated end of judging.
+[RecallRoom on Devpost](https://devpost.com/software/recallroom) was submitted to the Nebius x NVIDIA Global AI Hackathon on September 16, 2026. The published page includes the Firebase application, public GitHub repository and demo page. The saved video field uses https://www.youtube.com/watch?v=J0Gy2FWsm-M. Final terms were accepted after the user's explicit action-time confirmation.
+
+The code release at `cb0640f` passed [GitHub CI](https://github.com/shi1720/Nebius-x-NVIDIA/actions/runs/35123316024). The repository is public, `main` is the default and only branch, and local `main` was synchronized with origin.
+
+Keep free judge access available through December 15, 2026, the stated end of judging. The entry can still be edited before the submission deadline.
 
 ## Claim boundaries
 

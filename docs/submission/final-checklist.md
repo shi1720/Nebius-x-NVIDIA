@@ -25,10 +25,10 @@
 - [x] Keep the public sample explicitly fictional; never pass its deterministic output off as a model response.
 - [x] Inspect the completed video with clear narration and captions, public visibility and a duration no longer than three minutes.
 - [x] Verify the title, story, demo URL, repository URL, video URL, testing instructions in the judge attachment, and provider feedback in Devpost.
-- [ ] Verify main contains the final submitted source and documentation. Treat any old deployment and CI evidence as historical.
+- [x] Verify main contains the final submitted source and documentation. Treat any old deployment and CI evidence as historical.
 - [x] Save the country and eligibility declarations using the user's confirmation. No event attendance is claimed.
-- [ ] Confirm the saved or submitted state in Devpost after the final action.
+- [x] Confirm the saved or submitted state in Devpost after the final action.
 
-The user authorized publishing and accepted YouTube and Devpost terms. That authorization does not establish missing eligibility facts or a completed submission. The public YouTube video is verified. Devpost shows 4/5 steps complete. Eligibility details are saved. The real NVIDIA hosted workflow passed end to end. The refreshed 150.25-second video is public with English subtitles and passing YouTube checks. Final submission remains outstanding.
+The user explicitly confirmed the final rules acknowledgement and submission. Devpost displayed **"Project submitted!"** on September 16, 2026. The public page is https://devpost.com/software/recallroom. App, public repository and demo links were checked before submission. The final code release passed GitHub CI at `cb0640f`.
 
 Deadline supplied for this event: **October 30, 2026, 22:30 IST**. Keep free judge access available through **December 15, 2026**. Recheck the [official rules](https://nebiusglobalaihackathon.devpost.com/rules) and [resources](https://nebiusglobalaihackathon.devpost.com/resources) before final submission.

@@ -1,0 +1,18 @@
+{
+  "verifiedAt": "2026-09-16T17:05:03.849520+00:00",
+  "project": "RecallRoom",
+  "submissionId": 1185552,
+  "status": "submitted",
+  "confirmation": "Project submitted!",
+  "publicPage": "https://devpost.com/software/recallroom",
+  "appUrl": "https://recallroom.web.app",
+  "repositoryUrl": "https://github.com/shi1720/Nebius-x-NVIDIA",
+  "repositoryVisibility": "PUBLIC",
+  "defaultBranch": "main",
+  "demoPage": "https://recallroom.web.app/demo.html",
+  "videoUrl": "https://www.youtube.com/watch?v=J0Gy2FWsm-M",
+  "codeRelease": "cb0640fbfda34a96f3b4e1009bdf348fd889fc4a",
+  "codeCi": "https://github.com/shi1720/Nebius-x-NVIDIA/actions/runs/35123316024",
+  "terms": "Accepted after explicit user confirmation at the final submission step",
+  "verification": "Saved project fields, rendered submission confirmation and public Try it out links inspected through browser UI. Repository visibility verified through GitHub CLI."
+}
