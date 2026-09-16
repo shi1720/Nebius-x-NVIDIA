@@ -1,0 +1,40 @@
+{
+  "baseUrl": "https://recallroom.sg127977958.chatgpt.site",
+  "checks": [
+    {
+      "path": "/",
+      "forgedIdentity": false,
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/config",
+      "forgedIdentity": false,
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/investigations",
+      "forgedIdentity": false,
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "path": "/api/investigations",
+      "forgedIdentity": true,
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "path": "/samples/sunward-source-pack.zip",
+      "forgedIdentity": false,
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    }
+  ]
+}
