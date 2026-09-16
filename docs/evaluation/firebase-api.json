@@ -1,7 +1,7 @@
 {
-  "at": "2026-09-16T13:24:40.469Z",
+  "at": "2026-09-16T13:47:35.045Z",
   "mode": "deployed-firebase-api",
-  "apiOrigin": "https://recallroom-api-812985487554.us-central1.run.app",
+  "apiOrigin": "https://recallroom-api-tzgzy5xsga-uc.a.run.app",
   "browserOrigin": "https://recallroom.web.app",
   "checks": [
     {
@@ -277,6 +277,14 @@
       "passed": true
     },
     {
+      "name": "Owned case response exposes its active job for fresh-tab recovery",
+      "passed": true
+    },
+    {
+      "name": "Expired job is not offered as an active recovery target",
+      "passed": true
+    },
+    {
       "name": "Expired extraction lock permits a normal deployed update",
       "passed": true,
       "expectedStatus": 200,
@@ -354,7 +362,7 @@
     "No live model calls are made; this suite does not establish NVIDIA/Nebius extraction quality."
   ],
   "counts": {
-    "passed": 58,
+    "passed": 60,
     "failed": 0
   }
 }

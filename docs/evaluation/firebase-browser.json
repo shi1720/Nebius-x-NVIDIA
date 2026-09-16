@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-16",
+  "origin": "https://recallroom.web.app",
+  "method": "Manual browser automation with visible UI inspection and read-only DOM measurements",
+  "checks": [
+    {"name":"Google sign-in opens private workspace", "passed":true},
+    {"name":"Saved Sunward investigation survives reload", "passed":true},
+    {"name":"Synthetic source inspection, two relationship reviews and reviewed packet export", "passed":true},
+    {"name":"Mobile incident viewport equals document width", "viewportWidth":390, "documentWidth":390, "passed":true},
+    {"name":"Mobile sign-in viewport equals document width", "viewportWidth":390, "documentWidth":390, "passed":true},
+    {"name":"Mobile drawer opens evidence library", "passed":true},
+    {"name":"Tablet evidence viewport equals document width and icon navigation has names", "viewportWidth":768, "documentWidth":768, "passed":true},
+    {"name":"Hosted demo decodes and plays", "videoWidth":1920, "videoHeight":1080, "durationSeconds":145.083333, "observedPlaybackSeconds":35.001178, "muted":false, "decodingError":null, "passed":true}
+  ],
+  "limitations": ["Live NVIDIA/Nebius extraction is unverified.","These are recorded manual acceptance observations, not automated cross-browser coverage."]
+}

@@ -51,7 +51,7 @@ We built a complete investigation workflow around a specific problem: inspect re
 
 The most meaningful moment in the demo is the cookie batch. The scope changes only after a reviewer provides a supporting record, and the excluded relationship stays inspectable afterward. That makes the result easier to explain to the next person who opens the case.
 
-Our current automated suite passes 37 tests covering the domain logic, evidence checks, exports, and mocked provider contracts. The hosted Firebase API passed 58 checks, and 10 operator checks verified concurrent quotas and expired-lock behavior against the production Firestore functions. These results cover the application boundary; live NVIDIA inference still needs verification. The graph suite also checks its results against an independent calculation over 150 generated graphs. These are engineering checks, not claims about real-world recall accuracy.
+Our current automated suite passes 37 tests covering the domain logic, evidence checks, exports, and mocked provider contracts. The hosted Firebase API passed 60 checks, and 10 operator checks verified concurrent quotas and expired-lock behavior against the production Firestore functions. These results cover the application boundary; live NVIDIA inference still needs verification. The graph suite also checks its results against an independent calculation over 150 generated graphs. These are engineering checks, not claims about real-world recall accuracy.
 
 ## What we learned
 

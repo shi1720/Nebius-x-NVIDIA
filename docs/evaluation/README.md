@@ -5,7 +5,7 @@ The current deployment is [recallroom.web.app](https://recallroom.web.app), usin
 ## Current engineering checks
 
 - **37 automated unit and provider-contract tests pass.** The graph suite additionally compares results against an independent fixed-point oracle over 150 generated graphs.
-- **58 of 58 hosted API checks pass** against the deployed Cloud Run service using two real disposable Firebase accounts. The [sanitized report](firebase-api.json) covers token verification, anonymous and wrong-account rejection, exact-origin CORS, task-identity rejection, persistence, source-backed review, stale revisions, original uploads and downloads, hashes, duplicate files, PDF verification, export audit, expired locks and deletion.
+- **60 of 60 hosted API checks pass** against the deployed Cloud Run service using two real disposable Firebase accounts. The [sanitized report](firebase-api.json) covers token verification, anonymous and wrong-account rejection, exact-origin CORS, task-identity rejection, persistence, source-backed review, stale revisions, original uploads and downloads, hashes, duplicate files, PDF verification, export audit, expired locks and deletion.
 - **10 of 10 operator checks pass** against the production Firestore functions. The [operator report](firebase-operator.json) verifies concurrent per-user and global quota boundaries, rejected reservations consuming no budget, a single active job per investigation, and expired-lock update and deletion behavior. Test-process limits are lowered only for the bounded test; deployed limits are unchanged. No task is enqueued and no model request is made.
 - Disposable test records and accounts were cleaned up. Deletion of uploaded originals was also verified directly in the private Google Cloud Storage bucket.
 - Real browser Google sign-in succeeded and a private Sunward investigation was created for Shivam. The public layout was inspected at 390px mobile width without page-level horizontal overflow. Remaining browser acceptance is tracked in [delivery status](../STATUS.md).
@@ -46,3 +46,7 @@ This last command incurs actual provider usage. It must not be described as pass
 ## Historical evidence
 
 The earlier [production smoke report](production-smoke.json), SQLite quota checks, Cloudflare local API suite, old CI run and [initial internal rubric review](final-judge-review.md) describe the previous deployment. They remain historical context, not current Firebase acceptance or an official judging score. The active API and operator reports above supersede the old authentication and persistence evidence. No current migration CI pass is inferred from an earlier commit.
+
+## Final Firebase release
+
+The deployment script completed successfully on September 16, 2026. Its exact deployed API passed 60 checks with disposable-account and GCS-prefix cleanup. GitHub CI passed for application commit `9db701a`. Desktop, 390px mobile and 768px tablet browser checks passed for the inspected controls; no page overflow was found. The hosted captioned video decodes at 1920x1080, advances with audio unmuted, and matches the inspected local MP4 hash. Live NVIDIA inference on Nebius remains unverified.
