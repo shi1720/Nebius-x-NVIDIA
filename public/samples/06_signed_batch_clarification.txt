@@ -1,0 +1,7 @@
+SYNTHETIC SUPPORTING RECORD
+Sunward Foods | Batch clarification | 16 September 2026
+For batch COO-0904 (Peanut cookies), the shorthand PB-Sept refers to PB-0901-B.
+10 kg of PB-0901-B was consumed in COO-0904. No PB-0901-A was used in this batch.
+Supporting reference: warehouse issue slip WIS-0904-02.
+Recorded by: Maya Chen, production lead (fictional).
+A quality reviewer must approve any relationship change using this evidence.

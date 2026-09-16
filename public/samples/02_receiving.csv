@@ -1,0 +1,3 @@
+record_type,id,product,quantity,unit,supplier,date
+ingredient,PB-0901-A,Peanut butter,100,kg,Valley Nut Co.,2026-09-01
+ingredient,PB-0901-B,Peanut butter,80,kg,Valley Nut Co.,2026-09-01

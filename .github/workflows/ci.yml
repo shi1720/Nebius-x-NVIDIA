@@ -1,0 +1,32 @@
+name: Verify RecallRoom
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:quota
+      - run: npm run build
+      - run: npm run db:local
+      - name: Run local API integration
+        run: |
+          npm run dev > /tmp/recallroom-dev.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for i in $(seq 1 40); do
+            curl -fsS http://localhost:5173/api/config && break
+            sleep 1
+          done
+          npm run test:api

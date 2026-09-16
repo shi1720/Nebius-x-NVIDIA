@@ -1,0 +1,7 @@
+shipment_id,batch_id,customer,quantity,unit,date
+SHP-101,OAT-0902,Market & Co.,240,units,2026-09-06
+SHP-102,OAT-0902,Daily Grocer,120,units,2026-09-06
+SHP-103,BIT-0903,Daily Grocer,160,units,2026-09-07
+SHP-104,BIT-0903,Trailhouse,80,units,2026-09-07
+SHP-105,COO-0904,Market & Co.,120,units,2026-09-08
+SHP-106,OAT-0905,Trailhouse,180,units,2026-09-09

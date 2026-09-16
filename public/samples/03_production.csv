@@ -1,0 +1,6 @@
+batch_id,product,output_quantity,output_unit,input_lot,input_quantity,input_unit,date
+OAT-0902,Peanut oat bars,480,units,PB-0901-A,30,kg,2026-09-02
+BIT-0903,Energy bites,320,units,PB-0901-A,20,kg,2026-09-03
+COO-0904,Peanut cookies,240,units,PB-Sept,10,kg,2026-09-04
+OAT-0905,Peanut oat bars,360,units,PB-0901-B,25,kg,2026-09-05
+Note: PB-Sept is ambiguous. PB-0901-A and PB-0901-B were both available. Preserve both candidate relationships until reviewed.

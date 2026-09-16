@@ -1,0 +1,8 @@
+Sunward Foods | Inventory count | 16 September 2026
+OAT-0902: 120 units on site.
+BIT-0903: 80 units on site.
+COO-0904: 120 units on site.
+OAT-0905: 180 units on site.
+PB-0901-A: 50 kg on site.
+PB-0901-B: 45 kg on site.
+This count is supporting evidence; investigate any mismatch with transaction records.
