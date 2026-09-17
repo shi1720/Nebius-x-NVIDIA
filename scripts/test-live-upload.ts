@@ -48,7 +48,7 @@ if (packetPath) {
 
 for (const name of packetPath ? [] : files) {
   const data = await readFile(`public/samples/${name}`);
-  let text = data.toString("utf8");
+  let text = new TextDecoder().decode(data);
   if (name.endsWith(".pdf")) {
     const pdf = await getDocument({
       data: new Uint8Array(data),
